@@ -1,0 +1,305 @@
+000100240104.*******************************************************************************
+000200240104.*                         EMMI Physician Service, Inc.                        *
+000300240104.*                                    ©2024                                    *
+000400240104.*******************************************************************************
+000500240104.* HELP PANEL.: MCM0101P                                                       *
+000600240104.* DATE.......: 01/04/2024                                                     *
+000700240104.* PROGRAMMER.: Johnny Skaggs                                                  *
+000800240104.* SYNOPSIS...: Help for the Account Type Data Maintenance Display             *
+000900240104.* DESCRIPTION: Based upon the location of the cursor, different help text     *
+001000240104.*              will be displayed in a pop-up window when the help function    *
+001100240104.*              key is pressed.                                                *
+001200240104.*                                                                             *
+001300240104.*+++++++++++++++++++++  P A N E L  M A I N T E N A N C E  ++++++++++++++++++++*
+001400240104.* MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                     *
+001500240104.* Description of modifications made........................................   *
+001600240104.*******************************************************************************
+001700240104.*
+001800240104:PNLGRP.
+001900240104.*
+002000240104.*******************************************************************************
+002100240104:help Name='DISPLAY'.Account Type Info Screen - Help
+002200240104:p.Display the data associated with the account type code and pay code
+002300240104combination. Account type codes are unique to each of the customers. You must
+002400240104have the authority to add, change or delete the account type code data;
+002500240104otherwise, you will only be able to view the data. If you delete an account type
+002600240104code, then every corresponding entry in the Account Type Pay Code Changes file
+002700240104(Mxx.ATP) will be deleted. Actions of add, change or delete performed on an
+002800240104account type code, will cause a record to be written to the customer
+002900240104Miscellaneous Codes Maintenance Audit file (Mxx.AUDM).
+003000240104:p.
+003100240104:p.The following function keys are available:
+003200240104:ul.
+003300240104:li.:hp2.F1:ehp2. - Help text for the various fields on the screen.
+003400240104:li.:hp2.F3:ehp2. - Exit out of the program.
+003500240104:li.:hp2.F4:ehp2. - Bring up the data selection window for the field prompted.
+003600240104:li.:hp2.F12:ehp2. - Cancel all processing and go back to previous screen.
+003700240104:li.:hp2.F18:ehp2. - Initial billing days after date of service maintenance.
+003800240104:eul.
+003900240104:ehelp.
+004000240104.*
+004100240104.*******************************************************************************
+004200240104:help Name='ATMATYPE'.Account Type Code - Help
+004300240104:p.The account type code is the code associated with the billing information.
+004400240104For example, the code :hp2.BL:ehp2. has the description of :hp2.Blue Cross:ehp2.
+004500240104for the San Joaquin Facility Medical Group.
+004600240104:p.NOTE: The charges for the account type of "S" re-age, so if a patient makes
+004700240104a payment regularly and the Initial Statement After is 30 days or greater, then
+004800240104the patient will never receive a late payment notice, because the account will
+004900240104always be current. You must change the Initial Statement After days in all
+005000240104accounts with an account type of "S" to one day, so the patient will receive
+005100240104a statement on the next statement cycle.
+005200240104:ehelp.
+005300240104.*
+005400240104.*******************************************************************************
+005500240104:help Name='ATMINACDT'.Inactive As Of Date - Help
+005600240104:p.The date that the accounting type was inactivated and is no longer a valid
+005700240104accounting type for the customer.
+005800240104:ehelp.
+005900240104.*
+006000240104.*******************************************************************************
+006100240104:help Name='ATMADESC'.Account Type Description - Help
+006200240104:p.A description of what the accounting code represents. Every customer has
+006300240104their own set of codes and thus, two customers can have the same code; however,
+006400240104each of the codes can have different descriptions.
+006500240104:ehelp.
+006600240104.*
+006700240104.*******************************************************************************
+006800240104:help Name='ATMOBRIRC'.OBRA/IRCA - Help
+006900240104:p.Does this code fit into one of the two plans mentioned below?
+007000240104:ul.
+007100240104:li.Omnibus Budget Reconciliation Act(OBRA) programs were originally established
+007200240104in response to the provisions of the federal Omnibus Budget Reconciliation Act
+007300240104(OBRA) of 1987, which amended the Medicaid program requirements for nursing
+007400240104facilities.Its primary function has been to assure the implementation of those
+007500240104provisions of OBRA which address the relationship of nursing facilities to
+007600240104persons who are seriously mentally ill or have an intellectual/developmental
+007700240104disability (ID/DD).
+007800240104:li.Immigration Reform and Control Act(IRCA) allows lawfully present immigrants
+007900240104to get Marketplace medical coverage and possibly qualify for premium tax credits
+008000240104and other savings on Marketplace medical plans.
+008100240104:eul.
+008200240104:ehelp.
+008300240104.*
+008400240104.*******************************************************************************
+008500240104:help Name='ATMABRDSC'.Short Acct Type Description - Help
+008600240104:p.This is a shortened description of the account type description.
+008700240104:ehelp.
+008800240104.*
+008900240104.*******************************************************************************
+009000240104:help Name='ATMASSIGN'.Accept Assignment - Help
+009100240104:p.Will the doctor accept what is allowed for that type of payment.
+009200240104:p.This field determines what is printed on the insurance claim form (HCFA). For
+009300240104private insurances, if this field is an "A", then box number 13 will contain the
+009400240104text "Signature on File". If the insurance is Medicare or Medi-Cal/Medicaid
+009500240104and the assignment code is "A", box number 13 will contain "Signature of File"
+009600240104and the accept assignment box will be "X".
+009700240104:p.Valid values for this field are:
+009800240104:ul.
+009900240104:li.A = Accept Assignment
+010000240104:li.N = Do Not Accept
+010100240104:eul.
+010200240104:ehelp.
+010300240104.*
+010400240104.*******************************************************************************
+010500240104:help Name='ATMACRNYM'.Acronym - Help
+010600240104:p.Could not find where this is being used in other programs. That being said,
+010700240104this is a filed used to describe the account type.
+010800240104:ehelp.
+010900240104.*
+011000240104.*******************************************************************************
+011100240104:help Name='ATMATMINT'.Charge Interest on Balance - Help
+011200240104:p.If this is a Y, then the remaining balance will be charged interest.
+011300240104:p.Valid values for this field are:
+011400240104:ul.
+011500240104:li.Blank = Interest is not charged on the account
+011600240104:li.Y = The account is charged interest
+011700240104:eul.
+011800240104:ehelp.
+011900240104.*
+012000240104.*******************************************************************************
+012100240104:help Name='ATMERRLVL'.Edit Serervity Code - Help
+012200240104:p.Pertains to error checking performed on the data when records are processed
+012300240104in other programs.
+012400240104:ul.
+012500240104:li.:hp2.00:ehp2. = All edits performed.
+012600240104:li.:hp2.01:ehp2. = Account type not allowed in master record.
+012700240104:li.:hp2.02:ehp2. = No Social Security number, insurance identification, or
+012800240104Medi-Cal number required.
+012900240104:li.:hp2.03:ehp2. = No birth date, sex, address or first name required in
+013000240104addition to 02.
+013100240104:li.:hp2.04:ehp2. = Diagnosis not required in addition to 03.
+013200240104:eul.
+013300240104:ehelp.
+013400240104.*
+013500240104.*******************************************************************************
+013600240104:help Name='ATMATRFRQ'.Referring Physician Required - Help
+013700240104:p.A referring physician is required when using this account type code.
+013800240104:ehelp.
+013900240104.*
+014000240104.*******************************************************************************
+014100240104:help Name='ATMSTMTYP'.Type Of Statement - Help
+014200240104:p.The form name of the statement when the data is printed.
+014300240104:ul.
+014400240104:li.:hp2.N:ehp2. = None.
+014500240104:li.:hp2.S:ehp2. = A mailing is sent out.
+014600240104:eul.
+014700240104:p.This entry is very important! If an account is set up to not get statements
+014800240104and then is changed at some future date to receive statements, all of the
+014900240104charges for that account type are automatically re-aged (the current day's date
+015000240104is placed in a field in the TRAN file called AGE DATE) in the Nightly process,
+015100240104so that these charges will not automatically get delinquent notices, or be
+015200240104sent to collection during the following Weekly process.
+015300240104:ehelp.
+015400240104.*
+015500240104.*******************************************************************************
+015600240104:help Name='ATMINSFM'.Claims Frequency - Help
+015700240104:p.How often the claims are filed for this account type.
+015800240104:ul.
+015900240104:li.:hp2.N:ehp2. = None.
+016000240104:li.:hp2.D:ehp2. = Daily.
+016100240104:li.:hp2.W:ehp2. = Weekly.
+016200240104:li.:hp2.M:ehp2. = Monthly.
+016300240104:eul.
+016400240104:ehelp.
+016500240104.*
+016600240104.*******************************************************************************
+016700240104:help Name='ATMINSTYP'.Insurance Type - Help
+016800240104:p.Type of insurance that the applies to the account type.
+016900240104:ul.
+017000240104:li.:hp2.0:ehp2. = No Insurance.
+017100240104:li.:hp2.1:ehp2. = Medicare.
+017200240104:li.:hp2.2:ehp2. = Medi-Cal/Medicaid.
+017300240104:li.:hp2.3:ehp2. = Medicare/Medi-Cal/Medicaid.
+017400240104:li.:hp2.4:ehp2. = Private Insurance.
+017500240104:li.:hp2.5:ehp2. = Workers Compensation.
+017600240104:li.:hp2.6:ehp2. = Blue Cross/Blue Shield.
+017700240104:li.:hp2.7:ehp2. = Civilian Health and Medical Program of the Uniformed Services
+017800240104(CHAMPUS).
+017900240104:li.:hp2.8:ehp2. = California Children's Services(CCS).
+018000240104:eul.
+018100240104:ehelp.
+018200240104.*
+018300240104.*******************************************************************************
+018400240104:help Name='ATMPAPER'.Only Produce Paper Form - Help
+018500240104:p.How to send the charge data to the payer.
+018600240104:ul.
+018700240104:li.:hp2.B:ehp2. = Both Paper Copy and EDI.
+018800240104:li.:hp2.N:ehp2. = No Paper Copy/Only EDI.
+018900240104:li.:hp2.Y:ehp2. = Paper Copy Only/No EDI.
+019000240104:eul.
+019100240104:ehelp.
+019200240104.*
+019300240104.*******************************************************************************
+019400240104:help Name='ATMFRMCD'.Form Used For Paper Report - Help
+019500240104:p.The form that the data is going to be printed on.
+019600240104:ul.
+019700240104:li.1500 - HCFA form. Applies to all other physicians not listed below.
+019800240104:li.401C - Medicare and Medi-Cal physicians.
+019900240104:li.UB04 - Only applies to clinics and facilities.
+020000240104:eul.
+020100240104:ehelp.
+020200240104.*
+020300240104.*******************************************************************************
+020400240104:help Name='ATMSUMTYP'.Summary Account Type - Help
+020500240104:p.Currently not being used. That being said, the purpose for this field is
+020600240104associated with a Summary Account Type that some groups use for reporting
+020700240104purposes.
+020800240104:ehelp.
+020900240104.*
+021000240104.*******************************************************************************
+021100240104:help Name='ASGNMSGCDE'.Assignment of Message Codes - Help
+021200240104:p.This area is used for assigning statement message codes and deliquent message
+021300240104codes to the statements that are produced.
+021400240104:ul.
+021500240104:li.You can view statement messages by going to the Miscellaneous
+021600240104Codes Maintenance menu and selecting option 12 - Statement Message.
+021700240104:p.Under the number of days there are five codes that can be entered depending
+021800240104upon what is going on with the payment. Payments that are current have a message
+021900240104code in the Cur column; payments that are between 30 - 60 days late have a
+022000240104message code in the 30 column; payments that are between 60 - 90 days late have
+022100240104a message code in the 60 column; payments that are between 90 - 120 days late
+022200240104have a message code in the 90 column; payments over 120 days late have a message
+022300240104code in the 120 column.
+022400240104:li.You can view deliquent messages by going to the Miscellaneous
+022500240104Codes Maintenance menu and selecting option 13 - Delinq.Ltr/Final Notice Msgs.
+022600240104:p.There are three columns after the type of deliquent statement: Days, Print
+022700240104and Code. In the days column you can enter the number days you want to the
+022800240104message to appear on the statement, after the account has been deliquent for
+022900240104that number of days. In the print column you can enter Y if you want the
+023000240104deliquent/final notice/collection list to appear on the statement when it is
+023100240104generated. In the code column you can enter the code that corresponds to the
+023200240104text that you want to appear on the statement when it is generated.
+023300240104:eul.
+023400240104:ehelp.
+023500240104.*
+023600240104.*******************************************************************************
+023700240104:help Name='ATMINITST'.Initial Statement After - Help
+023800240104:p.The initial statement is to be sent after the number of days listed under
+023900240104the Days column.  The initial message to go on the initial statement is listed
+024000240104under the Code column. NOTE: This is a statement message.
+024100240104:ehelp.
+024200240104.*
+024300240104.*******************************************************************************
+024400240104:help Name='ATMMSGCR'.Current Message Code - Help
+024500240104:p.This code refers to the message that is sent out on the statement when the
+024600240104payments are current. NOTE: This is a statement message.
+024700240104:ehelp.
+024800240104.*
+024900240104.*******************************************************************************
+025000240104:help Name='ATMMSG30'.After 30 Days Message Code - Help
+025100240104:p.This code refers to the message that is sent out on the statement when the
+025200240104payment is behind 30 to 60 days. NOTE: This is a statement message.
+025300240104:ehelp.
+025400240104.*
+025500240104.*******************************************************************************
+025600240104:help Name='ATMMSG60'.After 60 Days Message Code - Help
+025700240104:p.This code refers to the message that is sent out on the statement when the
+025800240104payment is behind 60 to 90 days. NOTE: This is a statement message.
+025900240104:ehelp.
+026000240104.*
+026100240104.*******************************************************************************
+026200240104:help Name='ATMMSG90'.After 90 Days Message Code - Help
+026300240104:p.This code refers to the message that is sent out on the statement when the
+026400240104payment is behind 90 to 120 days. NOTE: This is a statement message.
+026500240104:ehelp.
+026600240104.*
+026700240104.*******************************************************************************
+026800240104:help Name='ATMMSG120'.After 120 Days Message Code - Help
+026900240104:p.This code refers to the message that is sent out on the statement when the
+027000240104payment is behind more than 120 days. NOTE: This is a statement message.
+027100240104:ehelp.
+027200240104.*
+027300240104.*******************************************************************************
+027400240104:help Name='ATMOLDL'.Deliquent Statement - Help
+027500240104:p.A deliquent letter is to be sent after a payment has not been received for
+027600240104the number of days listed under the Days column. If a deliquent letter is
+027700240104generated for a charge, should it also appear on the statement? Enter "N" = NO
+027800240104or "Y" = YES in the Print column.  A message that can be printed on the
+027900240104deliquent letter is listed under the code column. NOTE: This is a deliquent
+028000240104message.
+028100240104:ehelp.
+028200240104.*
+028300240104.*******************************************************************************
+028400240104:help Name='ATMDAYS48'.Final Notice - Help
+028500240104:p.A final notice letter is to be sent after a payment has not been received for
+028600240104the number of days listed under the Days column. If a final notice letter is
+028700240104generated for a charge, should it also appear on the statement? Enter "N" = NO
+028800240104or "Y" = YES in the Print column.  A message that can be printed on the
+028900240104final notice letter is listed under the code column. NOTE: This is a deliquent
+029000240104message.
+029100240104:ehelp.
+029200240104.*
+029300240104.*******************************************************************************
+029400240104:help Name='ATMCOLOLD'.Collection List - Help
+029500240104:p.A letter informing the person that they have been sent to collections is sent
+029600240104after a payment has not been received for the number of days listed under the
+029700240104Days column. If a collection list notice is generated for a charge, should it
+029800240104also appear on the statement? Enter "N" = NO or "Y" = YES in the Print column.
+029900240104A message that can be printed on the collection list notice letter  is listed
+030000240104under the code column. NOTE: This is a deliquent message.
+030100240104:ehelp.
+030200240104.*
+030300240104.*******************************************************************************
+030400240104.*
+030500240104:EPNLGRP.

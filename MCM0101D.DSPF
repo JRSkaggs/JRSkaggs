@@ -1,0 +1,470 @@
+000100231020      **************************************************************************
+000200231020      *                     EMMI Physician Service, Inc.                       *
+000300231020      *                                ©2023                                   *
+000400231020      **************************************************************************
+000500231020      * DISPLAY....: MCM0101D                                                  *
+000600231020      * DATE.......: 10/20/2023                                                *
+000700231020      * PROGRAMMER.: Johnny Skaggs                                             *
+000800231020      * FUNCTION...: Account Type Data Maintenance screen. This screen allows  *
+000900231020      *              the adding and changing for the account type code data.   *
+001000231020      *              The user must have the authority to add, change or delete *
+001100231020      *              the data. From this screen you can also get to the        *
+001200231020      *              Initial Billing Days After DOS Maintenance screens. When  *
+001300231020      *              adding account type code detail data, the last changed    *
+001400231020      *              information and inactive date fields will not be visible. *
+001500231020      *                                                                        *
+001600231020      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001700231020      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+001800231020      * Description of modifications made..................................... *
+001900231020      **************************************************************************
+002000231020      *
+002100231020     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+002200231020     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+002300231020     A                                      CF03(03 'Exit'                    ) Function key F3
+002400231020     A                                      CF12(12 'Cancel'                  ) Function key F12
+002500231020     A                                      CF18(18 'Pay Code Acct Type Maint') Function key F18
+002600231020     A                                      ERRSFL                              Dsp err msgs in a SF
+002700231020     A                                      HELP                                Enable the help key
+002800231020     A                                      INDARA                              Inds moved to sep area
+002900231020     A                                      PRINT                               Allow print of dsply
+003000231020     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+003100231020      *
+003200231020      * Miscellaneous maintenance screen........................................
+003300231020     A          R MCM0101
+003400231020     A                                      OVERLAY                             Do not erase the dsply
+003500231020     A                                      BLINK                               Make cursor blink
+003600231020     A  28                                  PROTECT                             Prohibit dsp data chgs
+003700231020     A                                      CSRLOC(CURROW   CURCOL)             Cursor location
+003800231020     A                                      CHANGE(91 'Display Field Changed ' )
+003900231020     A                                      RTNCSRLOC(*RECNAME &CURREC -
+004000231020     A                                                &CURFLD &CURPOS)          Return cusror location
+004100231020      *
+004200231020     A                                      HLPCLR                              Clear active help spec
+004300231020     A                                      HLPTITLE('Account Type Maintenance-
+004400231020     A                                       - Help')                           Dflt online help title
+004500231020     A          H                           HLPPNLGRP(DISPLAY    MCM0101P)
+004600231020     A                                      HLPARA(*NONE)
+004700231020     A                                      HLPBDY
+004800231020     A          H                           HLPPNLGRP(ATMATYPE   MCM0101P)
+004900231020     A                                      HLPARA(5 2 5 17)
+005000231020     A          H                           HLPPNLGRP(ATMINACDT  MCM0101P)
+005100231020     A                                      HLPARA(5 47 5 74)
+005200231020     A          H                           HLPPNLGRP(ATMADESC   MCM0101P)
+005300231020     A                                      HLPARA(6 2 6 40)
+005400231020     A          H                           HLPPNLGRP(ATMOBRIRC  MCM0101P)
+005500231020     A                                      HLPARA(6 47 6 79)
+005600231020     A          H                           HLPPNLGRP(ATMABRDSC  MCM0101P)
+005700231020     A                                      HLPARA(7 2 7 30)
+005800231020     A          H                           HLPPNLGRP(ATMASSIGN  MCM0101P)
+005900231020     A                                      HLPARA(7 47 7 79)
+006000231020     A          H                           HLPPNLGRP(ATMACRNYM  MCM0101P)
+006100231020     A                                      HLPARA(8 2 8 18)
+006200231020     A          H                           HLPPNLGRP(ATMATMINT  MCM0101P)
+006300231020     A                                      HLPARA(8 47 8 79)
+006400231020     A          H                           HLPPNLGRP(ATMERRLVL  MCM0101P)
+006500231020     A                                      HLPARA(9 2 9 22)
+006600231020     A          H                           HLPPNLGRP(ATMATRFRQ  MCM0101P)
+006700231020     A                                      HLPARA(9 47 9 79)
+006800231020     A          H                           HLPPNLGRP(ATMSTMTYP  MCM0101P)
+006900231020     A                                      HLPARA(10 2 10 41)
+007000231020     A          H                           HLPPNLGRP(ATMINSFM   MCM0101P)
+007100231020     A                                      HLPARA(11 2 11 60)
+007200231020     A          H                           HLPPNLGRP(ATMINSTYP  MCM0101P)
+007300231020     A                                      HLPARA(12 2 13 79)
+007400231020     A          H                           HLPPNLGRP(ATMPAPER   MCM0101P)
+007500231020     A                                      HLPARA(14 2 14 79)
+007600231020     A          H                           HLPPNLGRP(ATMFRMCD   MCM0101P)
+007700231020     A                                      HLPARA(15 2 15 24)
+007800231020     A          H                           HLPPNLGRP(ATMSUMTYP  MCM0101P)
+007900231020     A                                      HLPARA(16 2 16 22)
+008000231020     A          H                           HLPPNLGRP(ASGNMSGCDE MCM0101P)
+008100231020     A                                      HLPARA(17 2 18 79)
+008200231020     A          H                           HLPPNLGRP(ATMINITST  MCM0101P)
+008300231020     A                                      HLPARA(19 41 19 79)
+008400231020     A          H                           HLPPNLGRP(ATMINTMSG  MCM0101P)
+008500231020     A                                      HLPARA(20 8 21 11)
+008600231020     A          H                           HLPPNLGRP(ATMMSG30   MCM0101P)
+008700231020     A                                      HLPARA(20 14 21 17)
+008800231020     A          H                           HLPPNLGRP(ATMMSG60   MCM0101P)
+008900231020     A                                      HLPARA(20 20 21 23)
+009000231020     A          H                           HLPPNLGRP(ATMMSG90   MCM0101P)
+009100231020     A                                      HLPARA(20 26 21 29)
+009200231020     A          H                           HLPPNLGRP(ATMMSG120  MCM0101P)
+009300231020     A                                      HLPARA(20 32 21 35)
+009400231020     A          H                           HLPPNLGRP(ATMOLDL    MCM0101P)
+009500231020     A                                      HLPARA(20 41 20 79)
+009600231020     A          H                           HLPPNLGRP(ATMDAYS48  MCM0101P)
+009700231020     A                                      HLPARA(21 41 21 79)
+009800231020     A          H                           HLPPNLGRP(ATMCOLOLD  MCM0101P)
+009900231020     A                                      HLPARA(22 41 22 79)
+010000231020     A                                      HLPBDY
+010100231020      *
+010200231020     A            CURCOL    R        H      REFFLD(FLDREFR/CURCOL              )Cursor column position
+010300231020     A            CURFLD    R        H      REFFLD(FLDREFR/CURFLD              )Current field name
+010400231020     A            CURPOS    R        H      REFFLD(FLDREFR/CURPOS              )Cursor pos within fld
+010500231020     A            CURREC    R        H      REFFLD(FLDREFR/CURREC              )Current record name
+010600231020     A            CURROW    R        H      REFFLD(FLDREFR/CURROW              )Cursor row positon
+010700231020     A            CURRRN    R        H      REFFLD(FLDREFR/CURRRN              )Curr relative rec nbr
+010800231020     A            MODE      R        H      REFFLD(FLDREFR/MODE                )Subfle drop/fold mode
+010900231020      *
+011000231020     A                                  1  2DATE(*YY)
+011100231020     A                                      EDTCDE(Y)
+011200231020     A            COMPNAME      50A  O  1 16DSPATR(HI)
+011300231020     A                                  1 70'MCM0101'
+011400231020      *
+011500231020     A                                  2  2TIME
+011600231020     A                                  2 30'Account Type Maintenance'
+011700231020     A                                      DSPATR(HI)
+011800231020     A                                  2 70USER
+011900231020      *
+012000231020     A N36                              3 21'Last changed on'
+012100231020     A N36        ATMDATCHG      8Y 0O    +1EDTWRD('  /  /    ')
+012200231020     A N36                                +1'by'
+012300231020     A N36        ATMUSRCHG     10A  O    +1TEXT('User ID'                     )
+012400231020      *
+012500231020     A                                  5  2'Account Type:'
+012600231020     A                                      COLOR(WHT)
+012700231020     A            ATMATYPE       2A  B  5 16TEXT('Account Type Code'           )
+012800231020     A                                      FLDCSRPRG(ATMADESC)
+012900231020     A N36                                  DSPATR(PR)
+013000231020     A  36                                  DSPATR(UL)
+013100231020     A  36                                                                      Pos cursor here on add
+013200231020     AO 40                                  DSPATR(PC)
+013300231020     A  40                                  COLOR(RED)
+013400231020     A  40                                  DSPATR(HI RI)
+013500231020     A N36                              5 47'Inactive As Of..:'
+013600231020     A N36                                  COLOR(WHT)
+013700231020     A            ATMINACDT      8Y 0B  5 65TEXT('Inactive As Of Date'         )
+013800231020     A                                      FLDCSRPRG(ATMADESC)
+013900231020     A                                      EDTWRD('  /  /    ')
+014000231020     A  36                                  DSPATR(ND)
+014100231020     A N28                                  DSPATR(UL)
+014200231020     A                                      COLOR(RED)
+014300231020     A  41                                  DSPATR(HI RI PC)
+014400231020      *
+014500231020     A                                  6  2'Description.:'
+014600231020     A                                      COLOR(WHT)
+014700231020     A            ATMADESC      25A  B  6 16TEXT('Account Type Description'    )
+014800231020     A                                      FLDCSRPRG(ATMABRDSC)
+014900231020     A N28                                  DSPATR(UL)
+015000231020     A  42                                  COLOR(RED)
+015100231020     A  42                                  DSPATR(HI RI PC)
+015200231020     A                                  6 47'OBRA/IRCA.......:'
+015300231020     A                                      COLOR(WHT)
+015400231020     A            ATMOBRIRC      1A  B  6 65TEXT('OBRA/IRCA (Yes or No)'       )
+015500231020     A                                      VALUES(' ' 'Y' 'N')
+015600231020     A                                      FLDCSRPRG(ATMASSIGN)
+015700231020     A N28                                  DSPATR(UL)
+015800231020     A  43                                  COLOR(RED)
+015900231020     A  43                                  DSPATR(HI RI PC)
+016000231020     A                                  6 67'(Y=Yes, N=No)'
+016100231020     A                                      COLOR(TRQ)
+016200231020      *
+016300231020     A                                  7  2'Short Desc..:'
+016400231020     A                                      COLOR(WHT)
+016500231020     A            ATMABRDSC     15A  B  7 16TEXT('Short Acct Type Description' )
+016600231020     A                                      FLDCSRPRG(ATMACRNYM)
+016700231020     A N28                                  DSPATR(UL)
+016800231020     A  44                                  COLOR(RED)
+016900231020     A  44                                  DSPATR(HI RI PC)
+017000231020     A                                  7 47'Accept Assgnment:'
+017100231020     A                                      COLOR(WHT)
+017200231020     A            ATMASSIGN      1A  B  7 65TEXT('Accept Assignment'           )
+017300231020     A                                      VALUES('A' 'N')
+017400231020     A                                      FLDCSRPRG(ATMATMINT)
+017500231020     A N28                                  DSPATR(UL)
+017600231020     A  45                                  COLOR(RED)
+017700231020     A  45                                  DSPATR(HI RI PC)
+017800231020     A                                  7 67'(A=Yes, N=No)'
+017900231020     A                                      COLOR(TRQ)
+018000231020      *
+018100231020     A                                  8  2'Acronym.....:'
+018200231020     A                                      COLOR(WHT)
+018300231020     A            ATMACRNYM      3A  B  8 16TEXT('Acronym'                     )
+018400231020     A                                      FLDCSRPRG(ATMOBRIRC)
+018500231020     A N28                                  DSPATR(UL)
+018600231020     A  46                                  COLOR(RED)
+018700231020     A  46                                  DSPATR(HI RI PC)
+018800231020     A                                  8 47'Charge Interest.:'
+018900231020     A                                      COLOR(WHT)
+019000231020     A            ATMATMINT      1A  B  8 65TEXT('Charge Interest on Balance'  )
+019100231020     A                                      VALUES(' ' 'Y')
+019200231020     A                                      FLDCSRPRG(ATMATRFRQ)
+019300231020     A N28                                  DSPATR(UL)
+019400231020     A  47                                  COLOR(RED)
+019500231020     A  47                                  DSPATR(HI RI PC)
+019600231020     A                                  8 67'(Y=Yes)'
+019700231020     A                                      COLOR(TRQ)
+019800231020      *
+019900231020     A                                  9  2'Edit Severity Cde:'
+020000231020     A                                      COLOR(WHT)
+020100231020     A            ATMERRLVL      2Y 0B  9 21TEXT('Edit Serervity Code'         )
+020200231020     A                                      FLDCSRPRG(ATMSTMTYP)
+020300231020     A                                      RANGE(00 04)
+020400231020     A                                      CHECK(RZ)
+020500231020     A*                                     EDTWRD('0  ')
+020600231020     A N28                                  DSPATR(UL)
+020700231020     A  48                                  COLOR(RED)
+020800231020     A  48                                  DSPATR(HI RI PC)
+020900231020     A                                  9 47'Ref Phy Required:'
+021000231020     A                                      COLOR(WHT)
+021100231020     A            ATMATRFRQ      1A  B  9 65TEXT('Referring Physician Required')
+021200231020     A                                      VALUES(' ' 'Y' 'N')
+021300231020     A                                      FLDCSRPRG(ATMERRLVL)
+021400231020     A N28                                  DSPATR(UL)
+021500231020     A  49                                  COLOR(RED)
+021600231020     A  49                                  DSPATR(HI RI PC)
+021700231020     A                                  9 67'(Y=Yes, N=No)'
+021800231020     A                                      COLOR(TRQ)
+021900231020      *
+022000231020     A                                 10  2'Type Of Statement:'
+022100231020     A                                      COLOR(WHT)
+022200231020     A            ATMSTMTYP      1A  B 10 21TEXT('Type Of Statement'           )
+022300231020     A                                      VALUES('N' 'S')
+022400231020     A N28                                  DSPATR(UL)
+022500231020     A  50                                  COLOR(RED)
+022600231020     A  50                                  DSPATR(HI RI PC)
+022700231020     A                                 10 23'(N=None, S=Stuffer)'
+022800231020     A                                      COLOR(TRQ)
+022900231020      *
+023000231020     A                                 11  2'Claims Frequency.:'
+023100231020     A                                      COLOR(WHT)
+023200231020     A            ATMINSFM       1A  B 11 21TEXT('Claims Frequency'            )
+023300231020     A                                      VALUES('D' 'M' 'N' 'W')
+023400231020     A N28                                  DSPATR(UL)
+023500231020     A  51                                  COLOR(RED)
+023600231020     A  51                                  DSPATR(HI RI PC)
+023700231020     A                                 11 23'(N=None, D=Daily, W=Weekly, M=Mont-
+023800231020     A                                      hly)'
+023900231020      *
+024000231020     A                                      COLOR(TRQ)
+024100231020     A                                 12  2'Insurance Type...:'
+024200231020     A                                      COLOR(WHT)
+024300231020     A            ATMINSTYP      1Y 0B 12 21TEXT('Insurance Type'              )
+024400231020     A                                      RANGE(0  8)
+024500231020     A                                      EDTWRD('0 ')
+024600231020     A N28                                  DSPATR(UL)
+024700231020     A  52                                  COLOR(RED)
+024800231020     A  52                                  DSPATR(HI RI PC)
+024900231020     A                                 12 23'(0=No Insurance,1=Medicare,2=MCal--
+025000231020     A                                      Caid,3=MCare/MCal-Caid,'
+025100231020     A                                      COLOR(TRQ)
+025200231020      *
+025300231020     A                                 13 24'4=Private Ins,5=Work Comp,6=BC/BS,-
+025400231020     A                                      7=Champus,8=CCS)'
+025500231020     A                                      COLOR(TRQ)
+025600231020      *
+025700231020     A                                 14  2'Paper Copy Only..:'
+025800231020     A                                      COLOR(WHT)
+025900231020     A            ATMPAPER       1A  B 14 21TEXT('Only Produce Paper Form'     )
+026000231020     A                                      VALUES('B' 'N' 'Y')
+026100231020     A N28                                  DSPATR(UL)
+026200231020     A  53                                  COLOR(RED)
+026300231020     A  53                                  DSPATR(HI RI PC)
+026400231020     A                                 14 23'(B=Paper and EDI, N=No Paper Copy/-
+026500231020     A                                      EDI Only, Y=Paper Only)'
+026600231020     A                                      COLOR(TRQ)
+026700231020      *
+026800231020     A                                 15  2'Paper Form Type..:'
+026900231020     A                                      COLOR(WHT)
+027000231020     A            ATMFRMCD       4A  B 15 21TEXT('Form Used For Paper Report'  )
+027100231020     A                                      VALUES('    ' '1500' '401C' 'UB04')
+027200231020     A N28                                  DSPATR(UL)
+027300231020     A  54                                  COLOR(RED)
+027400231020     A  54                                  DSPATR(HI RI PC)
+027500231020      *
+027600231020     A                                 16  2'Summary Acct Type:'
+027700231020     A                                      COLOR(WHT)
+027800231020     A            ATMSUMTYP      2A  B 16 21TEXT('Summary Account Type'        )
+027900231020     A                                      FLDCSRPRG(ATMMSGCR)
+028000231020     A N28                                  DSPATR(UL)
+028100231020     A  55                                  COLOR(RED)
+028200231020     A  55                                  DSPATR(HI RI PC)
+028300231020      *
+028400231020     A                                 17  2'             Assignment of Stateme-
+028500231020     A                                      nt and Deliquent Message Codes     -
+028600231020     A                                               '
+028700231020     A                                      COLOR(WHT)
+028800231020     A                                      DSPATR(UL)
+028900231020      *
+029000231020     A                                 18 65'Days'
+029100231020     A                                      COLOR(WHT)
+029200231020     A                                      DSPATR(UL)
+029300231020     A                                 18 70'Print'
+029400231020     A                                      COLOR(WHT)
+029500231020     A                                      DSPATR(UL)
+029600231020     A                                 18 76'Code'
+029700231020     A                                      COLOR(WHT)
+029800231020     A                                      DSPATR(UL)
+029900231020      *
+030000231020     A                                 19 10'---- Number of Days ----'
+030100231020     A                                      COLOR(WHT)
+030200231020     A                                 19 41'Inital Statement After.:'
+030300231020     A                                      COLOR(WHT)
+030400231020     A            ATMINITST      3Y 0B 19 66TEXT('Init Statement After xx Days')
+030500231020     A                                      FLDCSRPRG(ATMINTMSG)
+030600231020     A                                      RANGE(0 999)
+030700231020     A                                      EDTCDE(Z)
+030800231020     A                                      CHECK(RB)
+030900231020     A N28                                  DSPATR(UL)
+031000231020     A  56                                  COLOR(RED)
+031100231020     A  56                                  DSPATR(HI RI PC)
+031200231020     A            ATMINTMSG      4Y 0B 19 76TEXT('Initial Statement Msg Code'  )
+031300231020     A                                      FLDCSRPRG(ATMOLDL)
+031400231020     A                                      RANGE(0 9999)
+031500231020     A                                      EDTCDE(Z)
+031600231020     A                                      CHECK(RB)
+031700231020     A N28                                  DSPATR(UL)
+031800231020     A  57                                  COLOR(RED)
+031900231020     A  57                                  DSPATR(HI RI PC)
+032000231020      *
+032100231020     A                                 20  8'Cur '
+032200231020     A                                      COLOR(WHT)
+032300231020     A                                      DSPATR(UL)
+032400231020     A                                 20 14' 30 '
+032500231020     A                                      COLOR(WHT)
+032600231020     A                                      DSPATR(UL)
+032700231020     A                                 20 20' 60 '
+032800231020     A                                      COLOR(WHT)
+032900231020     A                                      DSPATR(UL)
+033000231020     A                                 20 26' 90 '
+033100231020     A                                      COLOR(WHT)
+033200231020     A                                      DSPATR(UL)
+033300231020     A                                 20 32' 120'
+033400231020     A                                      COLOR(WHT)
+033500231020     A                                      DSPATR(UL)
+033600231020     A                                 20 41'Delinquent Letter After:'
+033700231020     A                                      COLOR(WHT)
+033800231020     A            ATMOLDL        3Y 0B 20 66TEXT('Deliquent Ltr After xx Days' )
+033900231020     A                                      FLDCSRPRG(ATMSTMTDL)
+034000231020     A                                      RANGE(0 999)
+034100231020     A                                      EDTCDE(Z)
+034200231020     A                                      CHECK(RB)
+034300231020     A N28                                  DSPATR(UL)
+034400231020     A  58                                  COLOR(RED)
+034500231020     A  58                                  DSPATR(HI RI PC)
+034600231020     A            ATMSTMTDL      1A  B 20 72TEXT('Statement for Deliquent Ltr' )
+034700231020     A                                      FLDCSRPRG(ATMMSGDL)
+034800231020     A                                      VALUES('N' 'Y')
+034900231020     A  36                                  DFTVAL('N')
+035000231020     A N28                                  DSPATR(UL)
+035100231020     A  59                                  COLOR(RED)
+035200231020     A  59                                  DSPATR(HI RI PC)
+035300231020     A            ATMMSGDL       4Y 0B 20 76TEXT('Delinquent Ltr Message Code' )
+035400231020     A                                      FLDCSRPRG(ATMDAYS48)
+035500231020     A                                      RANGE(0 9999)
+035600231020     A                                      EDTCDE(Z)
+035700231020     A                                      CHECK(RB)
+035800231020     A N28                                  DSPATR(UL)
+035900231020     A  60                                  COLOR(RED)
+036000231020     A  60                                  DSPATR(HI RI PC)
+036100231020      *
+036200231020     A                                 21  2'Code:'
+036300231020     A                                      COLOR(WHT)
+036400231020     A            ATMMSGCR       4Y 0B 21  8TEXT('Current Message Code'        )
+036500231020     A                                      FLDCSRPRG(ATMMSG30)
+036600231020     A                                      RANGE(0 9999)
+036700231020     A                                      EDTCDE(Z)
+036800231020     A                                      CHECK(RB)
+036900231020     A N28                                  DSPATR(UL)
+037000231020     A  61                                  COLOR(RED)
+037100231020     A  61                                  DSPATR(HI RI PC)
+037200231020      *
+037300231020     A            ATMMSG30       4Y 0B 21 14TEXT('Message Code After 30 Days'  )
+037400231020     A                                      FLDCSRPRG(ATMMSG60)
+037500231020     A                                      RANGE(0 9999)
+037600231020     A                                      EDTCDE(Z)
+037700231020     A                                      CHECK(RB)
+037800231020     A N28                                  DSPATR(UL)
+037900231020     A  62                                  COLOR(RED)
+038000231020     A  62                                  DSPATR(HI RI PC)
+038100231020      *
+038200231020     A            ATMMSG60       4Y 0B 21 20TEXT('Message Code After 60 Days'  )
+038300231020     A                                      FLDCSRPRG(ATMMSG90)
+038400231020     A                                      RANGE(0 9999)
+038500231020     A                                      EDTCDE(Z)
+038600231020     A                                      CHECK(RB)
+038700231020     A N28                                  DSPATR(UL)
+038800231020     A  63                                  COLOR(RED)
+038900231020     A  63                                  DSPATR(HI RI PC)
+039000231020     A            ATMMSG90       4Y 0B 21 26TEXT('Message Code After 90 Days'  )
+039100231020     A                                      FLDCSRPRG(ATMMSG120)
+039200231020     A                                      RANGE(0 9999)
+039300231020     A                                      EDTCDE(Z)
+039400231020     A                                      CHECK(RB)
+039500231020     A N28                                  DSPATR(UL)
+039600231020     A  64                                  COLOR(RED)
+039700231020     A  64                                  DSPATR(HI RI PC)
+039800231020     A            ATMMSG120      4Y 0B 21 32TEXT('Message Code After 120 Days' )
+039900231020     A                                      FLDCSRPRG(ATMINITST)
+040000231020     A                                      RANGE(0 9999)
+040100231020     A                                      EDTCDE(Z)
+040200231020     A                                      CHECK(RB)
+040300231020     A N28                                  DSPATR(UL)
+040400231020     A  65                                  COLOR(RED)
+040500231020     A  65                                  DSPATR(HI RI PC)
+040600231020      *
+040700231020     A                                 21 41'Final Notice After.....:'
+040800231020     A                                      COLOR(WHT)
+040900231020     A            ATMDAYS48      3Y 0B 21 66TEXT('Final Notice After xx Days'  )
+041000231020     A                                      RANGE(0 999)
+041100231020     A                                      EDTCDE(Z)
+041200231020     A                                      CHECK(RB)
+041300231020     A N28                                  DSPATR(UL)
+041400231020     A  66                                  COLOR(RED)
+041500231020     A  66                                  DSPATR(HI RI PC)
+041600231020     A            ATMSTMT48      1A  B 21 72TEXT('Statement for Final Notice'  )
+041700231020     A                                      VALUES('N' 'Y')
+041800231020     A  36                                  DFTVAL('N')
+041900231020     A N28                                  DSPATR(UL)
+042000231020     A  67                                  COLOR(RED)
+042100231020     A  67                                  DSPATR(HI RI PC)
+042200231020     A            ATMMSGFN       4Y 0B 21 76TEXT('Final Notice Message Code'   )
+042300231020     A                                      RANGE(0 9999)
+042400231020     A                                      EDTCDE(Z)
+042500231020     A                                      CHECK(RB)
+042600231020     A N28                                  DSPATR(UL)
+042700231020     A  68                                  COLOR(RED)
+042800231020     A  68                                  DSPATR(HI RI PC)
+042900231020      *
+043000231020     A                                 22 41'Collection List After..:'
+043100231020     A                                      COLOR(WHT)
+043200231020     A            ATMCOLOLD      3Y 0B 22 66TEXT('Collection Lst After xx Days')
+043300231020     A                                      RANGE(0 999)
+043400231020     A                                      EDTCDE(Z)
+043500231020     A                                      CHECK(RB)
+043600231020     A N28                                  DSPATR(UL)
+043700231020     A  69                                  COLOR(RED)
+043800231020     A  69                                  DSPATR(HI RI PC)
+043900231020     A            ATMCOLSTM      1A  B 22 72TEXT('Statement for Collection Lst')
+044000231020     A                                      VALUES('N' 'Y')
+044100231020     A  36                                  DFTVAL('N')
+044200231020     A N28                                  DSPATR(UL)
+044300231020     A  70                                  COLOR(RED)
+044400231020     A  70                                  DSPATR(HI RI PC)
+044500231020      *
+044600231020     A                                 23  2'F1=Help'
+044700231020     A                                      COLOR(BLU)
+044800231020     A                                    +2'F3=Exit'
+044900231020     A                                      COLOR(BLU)
+045000231020     A                                    +2'F12=Cancel'
+045100231020     A                                      COLOR(BLU)
+045200231020     A                                    +2'F18=Pay Code Acct Type Maintenance'
+045300231020     A                                      COLOR(BLU)
+045400231020      *
+045500231020      * Message subfile........................................................
+045600231020     A          R MSGSFL                    SFL                                 Subfile record format
+045700231020     A                                      SFLMSGRCD(24)                       Msg SF text dsp on row
+045800231020     A            MSGKEY                    SFLMSGKEY                           ID msg frm pgm msg que
+045900231020     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+046000231020      *
+046100231020      * Message subfile control................................................
+046200231020     A          R MSGCTL                    SFLCTL(MSGSFL)                      SF-control record fmt
+046300231020     A                                      SFLDSP                              Dsp SF rcds w/ctrl fmt
+046400231020     A                                      SFLDSPCTL                           Dsp flds in SF ctrl
+046500231020     A N99                                  SFLEND                              Enable SF dsply +
+046600231020     A                                      SFLINZ                              Initial fields to dfts
+046700231020     A                                      SFLSIZ(0002)                        Nbr of SF rows to dsp
+046800231020     A                                      SFLPAG(0001)                        Tot number of SF recs
+046900231020     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+047000231020      *

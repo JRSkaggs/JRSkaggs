@@ -1,0 +1,159 @@
+000100240314      **************************************************************************
+000200240314      *                     EMMI Physician Service, Inc.                       *
+000300240314      *                                ©2024                                   *
+000400240314      **************************************************************************
+000500240314      * DISPLAY....: MCM0100D                                                  *
+000600240314      * DATE.......: 03/14/2024                                                *
+000700240314      * PROGRAMMER.: Johnny Skaggs                                             *
+000800240314      * FUNCTION...: Account type code maintenance screen. This screen allows  *
+000900240314      *              the user to add, change, or delete account type codes.    *
+001000240314      *                                                                        *
+001100240314      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001200240314      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+001300240314      * Description of modifications made..................................... *
+001400240314      **************************************************************************
+001500240314      *
+001600240314     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+001700240314     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+001800240314     A                                      CF03(03 'Exit'                     )Function key F3
+001900240314     A                                      CF05(05 'Refresh'                  )Function key F5
+002000240314     A                                      CF06(06 'Add Code'                 )Function key F6
+002100240314     A                                      CF11(11 'Sort on Code/Code Desc'   )Function key F11
+002200240314     A                                      CF12(12 'Cancel'                   )Function key F12
+002300240314     A                                      CF14(14 'Show Accts All/Active'    )Function key F14
+002400240314     A                                      CF16(16 'Billing Dys After Int DOS')Function key F16
+002500240314     A                                      CF24(24 'More Function Keys'       )Function key F24
+002600240314     A                                      ERRSFL                              Dsp err msgs in a SF
+002700240314     A                                      HELP                                Enable the help key
+002800240314     A                                      HLPTITLE('Account Type Lookup Help')
+002900240314     A                                      INDARA                              Inds moved to sep area
+003000240314     A                                      PRINT                               Allow print of dsply
+003100240314     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+003200240314      *
+003300240314      * Enter option for code to process........................................
+003400240314     A          R MCM0100SF                 SFL
+003500240314     A  25                                  SFLNXTCHG
+003600240314      *
+003700240314     A            OPTION         1A  B 10 18TEXT('Selection Number'            )
+003800240314     A                                      VALUES(' ' '2' '4' '5')
+003900240314     A  40                                  COLOR(RED)
+004000240314     A  40                                  DSPATR(HI RI PC)
+004100240314     A            ATMATYPE  R        O 10 22REFFLD(FLDREFR/ACCTYPCDE           )
+004200240314     A  37                                  COLOR(RED)
+004300240314     A            ATMADESC  R        O 10 26REFFLD(FLDREFR/ACCTYPDESC          )
+004400240314     A  37                                  COLOR(RED)
+004500240314     A            ATMINACDT R        O 10 53REFFLD(FLDREFR/INACTDATE           )
+004600240314     A  37                                  COLOR(RED)
+004700240314      *
+004800240314      * Select which code to edit or delete.....................................
+004900240314     A          R MCM0100CTL                SFLCTL(MCM0100SF)                   SF-control record fmt
+005000240314     A                                      SFLPAG(12)                          Nbr of SF rows to dsp
+005100240314     A                                      SFLSIZ(1200)                        Tot number of SF recs
+005200240314     A                                      BLINK                               Make cursor blink
+005300240314     A                                      CSRLOC(CURROW   CURCOL)             Cursor location
+005400240314     A                                      OVERLAY                             Do not erase the dsply
+005500240314     A                                      RTNCSRLOC(&CURREC &CURFLD &CURPOS)  Return cusror location
+005600240314     A                                      SFLCSRRRN(&CURRRN)                  Return relative rec no
+005700240314     A  29                                  SFLINZ                              Initial fields to dfts
+005800240314     A  30                                  SFLCLR                              Clr SF of all rcds
+005900240314     A  31                                  SFLDSPCTL                           Dsp flds in SF ctrl
+006000240314     A  32                                  SFLDSP                              Dsp SF rcds w/ctrl fmt
+006100240314     A  39                                  SFLEND(*MORE)                       Enable SF more/bottom
+006200240314     A                                      SFLRNA                              Inz SF w/no act rcds
+006300240314      *
+006400240314     A                                      HLPCLR
+006500240314     A          H                           HLPPNLGRP(DISPLAY   MCM0100P)
+006600240314     A                                      HLPARA(*NONE)
+006700240314     A                                      HLPBDY
+006800240314     A          H                           HLPPNLGRP(SRCH4TEXT MCM0100P)
+006900240314     A                                      HLPARA(4 16 4 65)
+007000240314     A          H                           HLPPNLGRP(OPTION    MCM0100P)
+007100240314     A                                      HLPARA(9 17 21 19)
+007200240314     A          H                           HLPPNLGRP(ATMATYPE  MCM0100P)
+007300240314     A                                      HLPARA(9 21 21 24)
+007400240314     A          H                           HLPPNLGRP(ATMADESC  MCM0100P)
+007500240314     A                                      HLPARA(9 26 21 50)
+007600240314     A          H                           HLPPNLGRP(ATMINACDT MCM0100P)
+007700240314     A                                      HLPARA(9 52 21 64)
+007800240314     A                                      HLPBDY
+007900240314      *
+008000240314     A            SFREC#    R        H      REFFLD(FLDREFR/SFREC#              )
+008100240314     A                                      SFLRCDNBR(CURSOR *TOP)              Pos to SF page of RRN
+008200240314     A            CURCOL    R        H      REFFLD(FLDREFR/CURCOL              )Cursor column position
+008300240314     A            CURFLD    R        H      REFFLD(FLDREFR/CURFLD              )Current field name
+008400240314     A            CURPOS    R        H      REFFLD(FLDREFR/CURPOS              )Cursor pos within fld
+008500240314     A            CURREC    R        H      REFFLD(FLDREFR/CURREC              )Current record name
+008600240314     A            CURROW    R        H      REFFLD(FLDREFR/CURROW              )Cursor row positon
+008700240314     A            CURRRN    R        H      REFFLD(FLDREFR/CURRRN              )Curr relative rec nbr
+008800240314     A            MODE      R        H      REFFLD(FLDREFR/MODE                )Subfle drop/fold mode
+008900240314      *
+009000240314     A                                  1  2DATE(*YY)
+009100240314     A                                      EDTCDE(Y)
+009200240314     A            COMPNAME      50A  O  1 16DSPATR(HI)
+009300240314     A                                  1 70'MCM0100'
+009400240314     A                                  2  2TIME
+009500240314     A                                  2 25'Account Type Code Maintenance'
+009600240314     A                                      DSPATR(HI)
+009700240314     A                                  2 70USER
+009800240314     A  35                              3 32'--- Scan Mode ---'
+009900240314     A                                      TEXT('Indicates Scan Mode Active'  )
+010000240314     A                                      COLOR(YLW)
+010100240314     A  34                              4 16'       Code Search:'
+010200240314     A  34                                  COLOR(WHT)
+010300240314     A N34                              4 16'Description Search:'
+010400240314     A N34                                  COLOR(WHT)
+010500240314     A            SRCH4TEXT     30A  B  4 36TEXT('What Text To Search For'     )
+010600240314     A                                      DSPATR(UL PC)
+010700240314     A                                  6  2'Type options, press Enter.'
+010800240314     A                                      COLOR(BLU)
+010900240314     A                                  7  3'2=Change   4=Delete   5=Display'
+011000240314     A                                      COLOR(BLU)
+011100240314     A  38                              8 26'-- Only Active Showing --'
+011200240314     A                                      COLOR(YLW)
+011300240314     A                                  9 17'Opt'
+011400240314     A                                      DSPATR(UL)
+011500240314     A                                      COLOR(WHT)
+011600240314     A                                  9 21'Code'
+011700240314     A                                      DSPATR(UL)
+011800240314     A  34                                  COLOR(PNK)
+011900240314     A N34                                  COLOR(WHT)
+012000240314     A                                  9 26'       Description       '
+012100240314     A                                      DSPATR(UL)
+012200240314     A N34                                  COLOR(PNK)
+012300240314     A  34                                  COLOR(WHT)
+012400240314     A N38                              9 52'Inactive Date'
+012500240314     A N38                                  DSPATR(UL)
+012600240314     A N38                                  COLOR(WHT)
+012700240314      *
+012800240314      * Function keys...........................................................
+012900240314     A          R MCM0100FKY                TEXT('Function Keys for Main Screen-
+013000240314     A                                      ')
+013100240314      *
+013200240314     A N91                             23  2'F1=Help  F3=Exit  F5=Refresh  -
+013300240314     A                                      F6=Add  F11=Code/Desc  F12=Cancel  -
+013400240314     A                                      F24=More Keys'
+013500240314     A                                      COLOR(BLU)
+013600240314     A  91                             23  2'F14=All Codes/Active Codes  -
+013700240314     A                                      F16=Billing Days  F24=More Keys'
+013800240314     A                                      COLOR(BLU)
+013900240314      *
+014000240314      * Message subfile........................................................
+014100240314     A          R MSGSFL                    SFL                                 Subfile record format
+014200240314     A                                      SFLMSGRCD(24)                       Msg SF text dsp on row
+014300240314     A            MSGKEY                    SFLMSGKEY                           ID msg frm pgm msg que
+014400240314     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+014500240314      *
+014600240314      * Message subfile control................................................
+014700240314     A          R MSGCTL                    SFLCTL(MSGSFL)                      SF-control record fmt
+014800240314     A                                      OVERLAY                             Do not erase the dsply
+014900240314     A                                      SFLDSP                              Dsp SF rcds w/ctrl fmt
+015000240314     A                                      SFLDSPCTL                           Dsp flds in SF ctrl
+015100240314     A N99                                  SFLEND                              Enable SF dsply +
+015200240314     A                                      SFLINZ                              Initial fields to dfts
+015300240314     A                                      SFLSIZ(0002)                        Nbr of SF rows to dsp
+015400240314     A                                      SFLPAG(1)                           Tot number of SF recs
+015500240314     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+015600240314      *
+015700240314      *--------------------------------------------------------------------
+015800240314     A          R DUMMY                     ASSUME
+015900240314     A                                  1  2' '

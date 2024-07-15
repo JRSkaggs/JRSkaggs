@@ -1,0 +1,119 @@
+000100240111      **************************************************************************
+000200240111      *                     EMMI Physician Service, Inc.                       *
+000300240111      *                                ©2023                                   *
+000400240111      **************************************************************************
+000500240111      * DISPLAY....: MCM0104D                                                  *
+000600240111      * DATE.......: 01/11/2024                                                *
+000700240111      * PROGRAMMER.: Johnny Skaggs                                             *
+000800240111      * FUNCTION...: Account Type Pay Code Changes Maintenance screen. This    *
+000900240111      *              window allows the user to enter the data to add a pay     *
+001000240111      *              code change to account type, and modify the change to     *
+001100240111      *              account type for the pay code, and delete a pay code      *
+001200240111      *              change to account type from the file. In order to delete, *
+001300240111      *              the user must press the function key F9 to confirm the    *
+001400240111      *              data removal. This window should not be reached by a user *
+001500240111      *              who does not have the authortiy to add, change or delete  *
+001600240111      *              account type data.                                        *
+001700240111      *                                                                        *
+001800240111      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001900240111      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+002000240111      * Description of modifications made..................................... *
+002100240111      **************************************************************************
+002200240111      *
+002300240111     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+002400240111     A                                      INDARA                              Inds moved to sep area
+002500240111     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+002600240111     A                                      ERRSFL                              Dsply err msgs in SF
+002700240111     A                                      PRINT                               Allow print of dsply
+002800240111     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+002900240111     A                                      CF04(04 'Prompt'                  )
+003000240111     A                                      CF09(09 'Confirm Data Delete'     )
+003100240111     A                                      CF12(12 'Cancel'                  )
+003200240111     A                                      HELP
+003300240111      *
+003400240111      * Add or delete the pay code window.......................................
+003500240111     A          R PAYCDEWDW                 WINDOW(9 20 6 40 *NOMSGLIN)         Create window on dsply
+003600240111     A                                      WDWBORDER((*COLOR PNK))             Window border
+003700240111     A                                      WDWTITLE((*TEXT 'Add/Change/Delete')
+003800240111     A                                      (*COLOR WHT) *TOP *CENTER)
+003900240111     A                                      CSRLOC(WDWROW   WDWCOL)             Cursor location
+004000240111     A                                      BLINK                               Make cursor blink
+004100240111     A                                      KEEP
+004200240111     A                                      OVERLAY                             Do not erase the dsply
+004300240111     A                                      RTNCSRLOC(*RECNAME &WDWREC -
+004400240111     A                                                &WDWFLD &WDWPOS)          Return cusror location
+004500240111     A                                      HLPCLR                              Clr list of help specs
+004600240111     A                                      HLPTITLE('Pay Code Window - Help' ) Dflt title of hlp info
+004700240111     A          H                           HLPPNLGRP(DISPLAY    MCM0104WDW)    Source of help info
+004800240111     A                                      HLPARA(*NONE)                       Help area for panl grp
+004900240111     A                                      HLPBDY                              Limit help title dsply
+005000240111     A          H                           HLPPNLGRP(WDWPAYCDE  MCM0104P)
+005100240111     A                                      HLPARA(3 1 3 12)
+005200240111     A          H                           HLPPNLGRP(WDWPYCDDSC MCM0104P)
+005300240111     A                                      HLPARA(3 15 3 39)
+005400240111     A          H                           HLPPNLGRP(WDWACCTYP  MCM0104P)
+005500240111     A                                      HLPARA(4 1 4 12)
+005600240111     A          H                           HLPPNLGRP(WDWACTYDSC MCM0104P)
+005700240111     A                                      HLPARA(4 15 4 39)
+005800240111     A                                      HLPBDY
+005900240111     A            WDWCOL    R        H      REFFLD(FLDREFR/CURCOL)
+006000240111     A            WDWFLD    R        H      REFFLD(FLDREFR/CURFLD)
+006100240111     A            WDWPOS    R        H      REFFLD(FLDREFR/CURPOS)
+006200240111     A            WDWREC    R        H      REFFLD(FLDREFR/CURREC)
+006300240111     A            WDWROW    R        H      REFFLD(FLDREFR/CURROW)
+006400240111      *
+006500240111     A            WDWTITLE      38A  O  1  2TEXT('Add, chg, dlt window title' )
+006600240111     A N35                                  COLOR(WHT)
+006700240111     A  35                                  COLOR(RED)
+006800240111      *
+006900240111     A                                  3  1'Pay Code:'
+007000240111     A                                      COLOR(WHT)
+007100240111     A            WDWPAYCDE R        B    +1REFFLD(FLDREFR/PAYCODE)
+007200240111     A  35                                  DSPATR(PR)                          Data modification only
+007300240111     A  36                                  DSPATR(UL)                          on add
+007400240111     A  41                                  COLOR(RED)
+007500240111     A  41                                  DSPATR(HI RI PC)
+007600240111     A            WDWPYCDDSCR        O    +2REFFLD(FLDREFR/PAYCDEDESC)
+007700240111      *
+007800240111     A                                  4  1'Acc Type:'
+007900240111     A                                      COLOR(WHT)
+008000240111     A            WDWACCTYP R        B    +1REFFLD(FLDREFR/ACCTYPCDE)
+008100240111     A  35                                  DSPATR(PR)
+008200240111     A N35                                                                      Data modification on
+008300240111     AO 36                                  DSPATR(UL)                          add or change
+008400240111     A N36                                                                      Position cursor here
+008500240111     AO 42                                  DSPATR(PC)                          on change or error
+008600240111     A  42                                  COLOR(RED)
+008700240111     A  42                                  DSPATR(HI RI)
+008800240111     A            WDWACTYDSCR        O    +2REFFLD(FLDREFR/ACCTYPDESC)
+008900240111      *
+009000240111     A                                  6  1'F1=Help'
+009100240111     A                                      COLOR(BLU)
+009200240111     A N35                              6 10'F4=Prompt  F12=Cancel'
+009300240111     A                                      COLOR(BLU)
+009400240111     A  35                              6 10'F9=Delete'
+009500240111     A                                      COLOR(RED)
+009600240111     A  35                              6 21'F12=Cancel'
+009700240111     A                                      COLOR(BLU)
+009800240111      *
+009900240111      * Message subfile........................................................
+010000240111     A          R MSGSFL                    SFL
+010100240111     A                                      SFLMSGRCD(24)                       Msg SF text dsp on row
+010200240111     A            MSGKEY                    SFLMSGKEY                           ID msg frm pgm msg que
+010300240111     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+010400240111      *
+010500240111      * Message subfile control................................................
+010600240111     A          R MSGCTL                    SFLCTL(MSGSFL)
+010700240111     A                                      OVERLAY                             Do not erase the dsply
+010800240111     A                                      SFLDSP                              Dsp SF rcds w/ctrl fmt
+010900240111     A                                      SFLDSPCTL                           Dsp flds in SF ctrl
+011000240111     A N99                                  SFLEND                              Enable SF dsply +
+011100240111     A                                      SFLINZ                              Initial fields to dfts
+011200240111     A                                      SFLPAG(0001)                        Nbr of SF rows to dsp
+011300240111     A                                      SFLSIZ(0002)                        Tot number of SF recs
+011400240111     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+011500240111      *
+011600240111      * Dummy record format so that main display can be viewed under window....
+011700240111     A          R DUMMYRCD                  ASSUME
+011800240111     A                                 24 79' '
+011900240111

@@ -1,0 +1,110 @@
+000100240320.*******************************************************************************
+000200240320.*                         EMMI Physician Service, Inc.                        *
+000300240320.*                                    ©2024                                    *
+000400240320.*******************************************************************************
+000500240320.* HELP PANEL.: MCM0100P                                                       *
+000600240320.* DATE.......: 03/20/2024                                                     *
+000700240320.* PROGRAMMER.: Johnny Skaggs                                                  *
+000800240320.* SYNOPSIS...: Help For The Account Type Maintenance Selection Display        *
+000900240320.* DESCRIPTION: Based upon the location of the cursor, different help text     *
+001000240320.*              will be displayed in a pop-up window when the help function    *
+001100240320.*              key is pressed.                                                *
+001200240320.*                                                                             *
+001300240320.*+++++++++++++++++++++  P A N E L  M A I N T E N A N C E  ++++++++++++++++++++*
+001400240320.* MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                     *
+001500240320.* Description of modifications made........................................   *
+001600240320.*******************************************************************************
+001700240320.*
+001800240320:PNLGRP.
+001900240320.*
+002000240320.*******************************************************************************
+002100240320:help Name='DISPLAY'.Account Type Code Maintenace - Help
+002200240320:p.This screen allows for the maintanence of the financial class account type
+002300240320data. Enter a number in the option column in front of the account type code you
+002400240320want to do maintenance on. You must have authority to add, change or delete an
+002500240320account type code or its corresponding data; otherwise, you will only be able
+002600240320to view the data. Place the cursor on the search line and press F1 (HELP) to
+002700240320learn how to search for the account type code you are after.
+002800240320:p.
+002900240320:p.The following function keys are available:
+003000240320:ul.
+003100240320:li.:hp2.F1:ehp2. - Help text for the various fields on the screen.
+003200240320:li.:hp2.F3:ehp2. - Exit out of the program.
+003300240320:li.:hp2.F5:ehp2. - Refresh the screen to the way it first appeared.
+003400240320:li.:hp2.F6:ehp2. - Add a pay code change to account type code entry.
+003500240320:li.:hp2.F11:ehp2. - Switch between searching by type and descritpion.
+003600240320:li.:hp2.F12:ehp2. - Cancel all processing and go back to previous screen.
+003700240320:li.:hp2.F14:ehp2. - Switch between showing all accounts and only active
+003800240320accounts.
+003900240320:li.:hp2.F16:ehp2. - Initial billing days after the DOS Maintenance
+004000240320:li.:hp2.F24:ehp2. - Rotate through displaying the different function keys.
+004100240320:eul.
+004200240320:ehelp.
+004300240320.*
+004400240320.*******************************************************************************
+004500240320:help Name='SRCH4TEXT'.Search For - Help
+004600240320:p.Searching is done on the either the code or description column. The column
+004700240320header of the active search column will appear in a different color than the
+004800240320rest of the columns. Also, the search text description will have the name of the
+004900240320column being searched on. If the current search column is the account type code,
+005000240320then entering a value into the search field will cause the program to position
+005100240320to or search on the account type code. If the current search column is the
+005200240320account type code description, then the program will postion to or search on
+005300240320the account type code description.
+005400240320:p.
+005500240320:p.There are two types of searching you can do:
+005600240320:ul.
+005700240320:li.:hp2.Positon:ehp2. - You can enter just a portion of the value you want to
+005800240320position to. For Example, if you are searching for an account type code that
+005900240320starts with H, then you can enter an H in the search field and press ENTER. The
+006000240320first row of subfile data will have the account type that starts with H, or the
+006100240320next closest letter if there is not account type that starts with H.
+006200240320:li.:hp2.Search:ehp2. - By placing a question mark (?) at the beginning of the
+006300240320search text, you can search within the account type code or account type code
+006400240320description for matching values.  You can enter just a portion of the of the
+006500240320value you want to search for.  For Example, if you know what you want a account
+006600240320type code description that has MEDICAID in it, you can enter ?MEDICAID in the
+006700240320search line and press ENTER. On the screen will appear all account type code
+006800240320descriptions that have MEDICAID in them.
+006900240320:eul.
+007000240320:ehelp.
+007100240320.*
+007200240320.*******************************************************************************
+007300240320:help Name='OPTION'.Option Number - Help
+007400240416:p.Enter one of the below numbers into into the option column before the
+007500240416account type code you would like to display, modify or delete.
+007600240320:p.
+007700240320:ul.
+007800240320:li.:hp2.2:ehp2. = Change the data for the account type code. You must have
+007900240320authority to do this.
+008000240320:li.:hp2.4:ehp2. = Delete the account type code and any associated account type
+008100240320code data. You must have authority to do this.
+008200240320:li.:hp2.5:ehp2. = View the data for the account type code.
+008300240320:eul.
+008400240320:ehelp.
+008500240320.*
+008600240320.*******************************************************************************
+008700240320:help Name='ATMATYPE'.Account Type Code - Help
+008800240320:p.Is the two character code associated with the Financial Class Account Type.
+008900240320For example, :hp2.CIGNA MCARE DME:ehp2. is assigned the code value of
+009000240320:hp2.CM:ehp2..
+009100240320:ehelp.
+009200240320.*
+009300240320.*******************************************************************************
+009400240320:help Name='ATMADESC'.Account Type Code Description - Help
+009500240320:p.The description of what the Account Type Code is.  This is usually the full
+009600240320name of the business that the code is assigned to. For example, the account type
+009700240320code :hp2.X:ehp2. has the description of :hp2.MEDICARE/MEDICAID:ehp2..
+009800240320
+009900240320:ehelp.
+010000240320.*
+010100240320.*******************************************************************************
+010200240320:help Name='ATMINACDT'.Inactive Date - Help
+010300240320:p.The inactive date is the date that the code was marked as no longer being
+010400240320used. You can hide pay codes change to account type codes from the screen by
+010500240320pressing the F14 key.
+010600240320:ehelp.
+010700240320.*
+010800240320.*******************************************************************************
+010900240320.*
+011000240320:EPNLGRP.

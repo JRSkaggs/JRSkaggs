@@ -1,0 +1,72 @@
+000100240403.*******************************************************************************
+000200240403.*                         EMMI Physician Service, Inc.                        *
+000300240403.*                                    ©2024                                    *
+000400240403.*******************************************************************************
+000500240403.* HELP PANEL.: MCM0104P                                                       *
+000600240403.* DATE.......: 04/03/2024                                                     *
+000700240403.* PROGRAMMER.: Johnny Skaggs                                                  *
+000800240403.* SYNOPSIS...: Help For The Account Type Pay Code Changes Maintenance Display *
+000900240403.* DESCRIPTION: Based upon the location of the cursor, different help text     *
+001000240403.*              will be displayed in a pop-up window when the help function    *
+001100240403.*              key is pressed.                                                *
+001200240403.*                                                                             *
+001300240403.*+++++++++++++++++++++  P A N E L  M A I N T E N A N C E  ++++++++++++++++++++*
+001400240403.* MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                     *
+001500240403.* Description of modifications made........................................   *
+001600240403.*******************************************************************************
+001700240403.*
+001800240403:PNLGRP.
+001900240403.*
+002000240403.*******************************************************************************
+002100240403:help Name='DISPLAY'.Acct Type Pay Code Chgs Maintenance - Help
+002200240403:p.This window is where the adding, changing and deletion of the pay code to
+002300240403account type data is done. When adding a pay code to account type entry,
+002400240403both the pay code and account and account type are available for input.  When
+002500240403chaning a pay code to account type entry, only the account type will be
+002600240403available for entry. To change both the pay code and account type entry, you
+002700240403must create a new entry. When deleting an entry, no fields will be available
+002800240403for input, and in additon, you must press the function key F9 to confirm the
+002900240403deletion of the entry. After the change or delete of data is complete, the
+003000240403window will disappear and you will be back on the selection screen. After a
+003100240403record is added, the window will stay up and you will be able to make additional
+003200240403entries until the function key F12 is pressed.
+003300240403:p.
+003400240403:p.The following function keys are available:
+003500240403:ul.
+003600240403:li.:hp2.F1:ehp2. - Help text for the various fields on the screen.
+003700240403:li.:hp2.F4:ehp2. - Bring up the data selection window for the field prompted.
+003800240403:li.:hp2.F12:ehp2. - Cancel all processing and go back to previous screen.
+003900240403:eul.
+004000240403:ehelp.
+004100240403.*
+004200240403.*******************************************************************************
+004300240403:help Name='WDWPAYCDE'.Pay Code - Help
+004400240403:p.The two character code associated with the Pay Code. For example,
+004500240403:hp2.INSURANCE BILLED:ehp2. is assigned the code value of :hp2.IB:ehp2..
+004600240403:ehelp.
+004700240403.*
+004800240403.*******************************************************************************
+004900240403:help Name='WDWPYCDDSC'.Pay Code Description - Help
+005000240403:p.The description of what the Pay Code is. For example, the pay code
+005100240403:hp2.ST:ehp2. has the description of :hp2.PATIENT STATEMENT:ehp2..
+005200240403:ehelp.
+005300240403.*
+005400240403.*******************************************************************************
+005500240403:help Name='WDWACCTYP'.Change To Account Type Code - Help
+005600240403:p.The change to account type code is what the account type code is going to be
+005700240403changed to for the pay code. For example, for the customer San Juaquin Facility
+005800240403Medical Group Demo if you have a account type code of :hp2.BL:ehp2. and a pay
+005900240403code of :hp2.BY:ehp2.,then the account type code will be changed to
+006000240403:hp2.D:ehp2..
+006100240403:ehelp.
+006200240403.*
+006300240403.*******************************************************************************
+006400240403:help Name='WDWACTYDSC'.Change To Acct Type Code Desc - Help
+006500240403:p.The description of the change to account type code. For example, the
+006600240403change to account type code of :hp2.D:ehp2. has a description of
+006700240403:hp2.INSURANCE PD/PT RESPONSBL:ehp2..
+006800240403:ehelp.
+006900240403.*
+007000240403.*******************************************************************************
+007100240403.*
+007200240403:EPNLGRP.

@@ -1,0 +1,85 @@
+000100000000/* ************************************************************************************ */
+000200000000/*ATB001CL?- Initial Billing Days After DOS                                           ?*/
+000300000000/* ************************************************************************************ */
+000400000000/*?Note(s):                                                                            ?*/
+000500000000/*?        ?1.?scan ??? for doubts...                                                  ?*/
+000600000000/*                                                                                     ?*/
+000700000000/* ************************************************************************************ */
+000800000000/* written: 05/15 - jcc                                                                 */
+000900000000/* modifications:                                                                       */
+001000000000/*                                                                                      */
+001100160119/*    01/19/2016    jcc - changed file override(s) to *LIBL instead of &LIB3            */
+001200240216/*    02/16/2024    JRS - Change name of program from ATB001CL to MCM0103C. Calls RPGLE */
+001300240216/*                        program MCM0103R instead of ABT001. New naming convention for */
+001400240319/*                        Miscellaneous Code Maintenance programs. If F3 is pressed in  */
+001500240319/*                        the RPG program, it is passed back to the calling program.    */
+001600000000/*                                                                                      */
+001700240216/* * Copyright 1979-2024 - Electronic Medical Management, Inc.                          */
+001800000000/* ************************************************************************************ */
+001900000000/*                                                                                      */
+002000000000/* parm(s): entry:  &P1             3A  parameter 1                                     */
+002100240319/*                  &RETFNCKEY      3A  Pass to calling program if F3 was pressed       */
+002200240319/*                                                                                      */
+002300000000/*?************************************************************************************?*/
+002400000000/*?*?EMMI Physician Services, Inc.                                                   ?*?*/
+002500000000/*?************************************************************************************?*/
+002600240319             PGM        PARM(&P1 &RETFNCKEY)
+002700000000
+002800000000             DCL        VAR(&P1        ) TYPE(*CHAR) LEN(   3)
+002900240319/*JS01*/     DCL        VAR(&RETFNCKEY ) TYPE(*CHAR) LEN(   3)
+003000000000
+003100000000             DCL        VAR(&LIB1      ) TYPE(*CHAR) LEN(  10)
+003200000000             DCL        VAR(&LIB2      ) TYPE(*CHAR) LEN(  10)
+003300000000             DCL        VAR(&LIB3      ) TYPE(*CHAR) LEN(  10)
+003400000000             DCL        VAR(&CANCEL    ) TYPE(*CHAR) LEN(   1)
+003500000000             DCL        VAR(&ATBILL    ) TYPE(*CHAR) LEN(  10)
+003600000000             DCL        VAR(&ATBILL1   ) TYPE(*CHAR) LEN(  10)
+003700000000             DCL        VAR(&CTL       ) TYPE(*CHAR) LEN(  10)
+003800000000             DCL        VAR(&Exit      ) TYPE(*CHAR) LEN(   1)
+003900000000
+004000000000/*?process:                                                                            ?*/
+004100000000
+004200000000/*?load parameter 1 into the*LDA:?                                                    ?*/
+004300000000
+004400000000             CHGDTAARA  DTAARA(*LDA (137 3)) VALUE(&P1)
+004500000000
+004600000000/*?library variables:                                                                  ?*/
+004700000000/*  &LIB1? ?main application program library:                                         ?*/
+004800000000             RTVDTAARA  DTAARA(APPLCTLARA (1 10)) RTNVAR(&LIB1)
+004900000000/*  &LIB2? ?appt scheduling program library:                                          ?*/
+005000000000             RTVDTAARA  DTAARA(APPLCTLARA (11 10)) RTNVAR(&LIB2)
+005100000000/*  &LIB3? ?data file library:                                                        ?*/
+005200000000             RTVDTAARA  DTAARA(APPLCTLARA (21 10)) RTNVAR(&LIB3)
+005300000000
+005400000000             CHGDTAARA  DTAARA(*LDA (601 10)) VALUE(&LIB3)
+005500000000
+005600000000/*?set override(s):                                                                    ?*/
+005700000000
+005800000000             CHGVAR     VAR(&ATBILL) VALUE(%SST(&P1 1 1) *TCAT '.ATBILL')
+005900160119             OVRDBF     FILE(ATBILL) TOFILE(*LIBL/&ATBILL)
+006000000000             CHGVAR     VAR(&ATBILL1) VALUE(%SST(&P1 1 1) *TCAT '.ATBILL1')
+006100160119             OVRDBF     FILE(ATBILL1) TOFILE(*LIBL/&ATBILL1)
+006200000000             CHGVAR     VAR(&CTL) VALUE(%SST(&P1 1 1) *TCAT '.CTL')
+006300160119             OVRDBF     FILE(CTL) TOFILE(*LIBL/&CTL)
+006400000000
+006500000000/*?call the program:                                                                   ?*/
+006600000000
+006700000000             SNDPGMMSG  MSGID(CPF9898) MSGF(QCPFMSG) +
+006800000000                        TOPGMQ(*EXT) MSGTYPE(*DIAG)  +
+006900000000                        MSGDTA('--Program ATB001 Executing--')
+007000000000
+007100240216/*JS01*/     CALL       PGM(MCM0103R) PARM(&Exit)
+007200000000
+007300000000/*?if selection program ended with F3, end this program:                               ?*/
+007400000000
+007500240319/*JS01*/     IF         COND(&Exit = 'X') THEN(CHGVAR VAR(&RETFNCKEY) VALUE('F03'))
+007600000000             IF         COND(&Exit *NE ' ') THEN(DO)
+007700000000                        GOTO       CMDLBL(ENDPGM)
+007800000000                        ENDDO
+007900000000
+008000000000/*?the end...                                                                          ?*/
+008100000000
+008200000000ENDPGM:
+008300000000             DLTOVR     FILE(*ALL) LVL(*)
+008400000000                        MONMSG     MSGID(CPF0000)
+008500000000             ENDPGM

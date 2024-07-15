@@ -1,0 +1,202 @@
+000100240111      **************************************************************************
+000200240111      *                     EMMI Physician Service, Inc.                       *
+000300240111      *                                ©2023                                   *
+000400240111      **************************************************************************
+000500240111      * DISPLAY....: MCM0102D                                                  *
+000600240111      * DATE.......: 01/11/2024                                                *
+000700240111      * PROGRAMMER.: Johnny Skaggs                                             *
+000800240111      * FUNCTION...: Pay Code To Account Type Maintenance screen. This screen  *
+000900240111      *              displays the pay code and corresponding change to account *
+001000240111      *              type for the account type. From this screen the user can  *
+001100240111      *              add, change and delete pay code to account type data, if  *
+001200240111      *              the user has the authority. The subfile fold contains the *
+001300240111      *              last changed date and last change by user ID.             *
+001400240111      *                                                                        *
+001500240111      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001600240111      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+001700240111      * Description of modifications made..................................... *
+001800240111      **************************************************************************
+001900240111      *
+002000240111     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+002100240111     A                                      INDARA                              Inds moved to sep area
+002200240111     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+002300240111     A                                      ERRSFL                              Dsply err msgs in SF
+002400240111     A                                      PRINT                               Allow print of dsply
+002500240111     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+002600240111     A                                      CF03(03 'Exit'                    )
+002700240111     A                                      CF04(04 'Prompt'                  )
+002800240111     A                                      CF05(05 'Refresh'                 )
+002900240111     A N28                                  CF06(06 'Add Code'                )
+003000240111     A                                      CF10(10 'Addtl Info'              )
+003100240111     A                                      CF12(12 'Cancel'                  )
+003200240111     A                                      HELP
+003300240111      *
+003400240111      * Enter option for code to process........................................
+003500240111     A          R MCM0102SF                 SFL
+003600240111     A  25                                  SFLNXTCHG                           Marks SF rec as chngd
+003700240111      *
+003800240111     A            SFRRN1         4S 0H      TEXT('Subfile Relative Rec Number')
+003900240111     A            OPTION         1A  B  8 11TEXT('Selection Number'           )
+004000240111     A                                      VALUES(' ' '2' '4')
+004100240111     A  28                                  DSPATR(ND PR)
+004200240111     A            ATPPAYCD  R        O    +2REFFLD(FLDREFR/PAYCODE)
+004300240111     A            PADESC    R        O    +2REFFLD(FLDREFR/PAYCDEDESC)
+004400240111     A            ATPCHGTYP R        O    +2REFFLD(FLDREFR/ACCTYPCDE)
+004500240111
+004600240111     A            ATMADESC  R        O    +1REFFLD(FLDREFR/ACCTYPDESC)
+004700240111      *
+004800240111     A                                  9 16'Last Changed By'
+004900240111     A                                      COLOR(TRQ)
+005000240111     A            ATPUSRCHG R        O    +1REFFLD(FLDREFR/LSTCHGUSR)
+005100240111     A                                      COLOR(YLW)
+005200240111     A                                    +1'on'
+005300240111     A                                      COLOR(TRQ)
+005400240111     A            ATPDATCHG R        O    +1REFFLD(FLDREFR/LSTCHGDATE)
+005500240111     A                                      COLOR(YLW)
+005600240111      *
+005700240111      * Select which code to edit or delete.....................................
+005800240111     A          R MCM0102CTL                SFLCTL(MCM0102SF)
+005900240111     A                                      SFLPAG(007)                         Nbr of SF rows to dsp
+006000240111     A                                      SFLSIZ(210)                         Tot number of SF recs
+006100240111     A                                      BLINK                               Make cursor blink
+006200240111     A                                      FRCDTA                              Dsp a rcd format immed
+006300240111     A                                      KEEP                                Dsp not dltd when clsd
+006400240111     A                                      OVERLAY                             Do not erase the dsply
+006500240111     A  28                                  PROTECT                             Data cannot be changed
+006600240111     A                                      RTNCSRLOC(*RECNAME &CURREC -
+006700240111     A                                                &CURFLD &CURPOS)          Return cusror location
+006800240111     A                                      CSRLOC(CURROW   CURCOL)             Cursor location
+006900240111     A                                      SFLCSRRRN(&CURRRN)                  Return relative rec no
+007000240111     A  29                                  SFLINZ                              Initial fields to dfts
+007100240111     A                                      SFLRNA                              Inz SF w/no act rcds
+007200240111     A  30                                  SFLCLR                              Clr SF of all rcds
+007300240111     A  31                                  SFLDSPCTL                           Dsp flds in SF ctrl
+007400240111     A  32                                  SFLDSP                              Dsp SF rcds w/ctrl fmt
+007500240111     A N33                                  SFLDROP(CF10)                       Dsp all lines of SF
+007600240111     A  33                                  SFLFOLD(CF10)                       Dsp first line of SF
+007700240111     A                                      SFLMODE(&SFMODE)                    SF in drop or fold sts
+007800240111     A  39                                  SFLEND(*MORE)                       Enable SF more/bottom
+007900240111      *
+008000240111     A                                      HLPCLR                              Clr list of help specs
+008100240111     A                                      HLPTITLE('Code Selection - Help'  ) Dflt title of hlp info
+008200240111     A          H                           HLPPNLGRP(DISPLAY    MCM0102P)      Source of help info
+008300240111     A                                      HLPARA(*NONE)                       Help area for panl grp
+008400240111     A                                      HLPBDY                              Limit help title dsply
+008500240111     A          H                           HLPPNLGRP(INACTDATE  MCM0102P)
+008600240111     A                                      HLPARA(3 27 3 53)
+008700240111     A          H                           HLPPNLGRP(ACCTYPCDE  MCM0102P)
+008800240111     A                                      HLPARA(5 19 5 34)
+008900240111     A          H                           HLPPNLGRP(ACCTYPDESC MCM0102P)
+009000240111     A                                      HLPARA(5 37 5 61)
+009100240111     A          H                           HLPPNLGRP(OPTION     MCM0102P)
+009200240111     A                                      HLPARA(7 10 21 12)
+009300240111     A          H                           HLPPNLGRP(PAYCODE    MCM0102P)
+009400240111     A                                      HLPARA(7 14 21 16)
+009500240111     A          H                           HLPPNLGRP(PAYCDEDESC MCM0102P)
+009600240111     A                                      HLPARA(7 18 21 42)
+009700240111     A          H                           HLPPNLGRP(ACCTYPCD2  MCM0102P)
+009800240111     A                                      HLPARA(7 45 21 46)
+009900240111     A          H                           HLPPNLGRP(ACCTYPDSC2 MCM0102P)
+010000240111     A                                      HLPARA(7 48 21 72)
+010100240111     A                                      HLPBDY
+010200240111      *
+010300240111     A            SFREC#    R        H      REFFLD(FLDREFR/SFREC#)
+010400240111     A                                      SFLRCDNBR(CURSOR *TOP)              Pos to SF page of RRN
+010500240111     A            CURCOL    R        H      REFFLD(FLDREFR/CURCOL)
+010600240111     A            CURFLD    R        H      REFFLD(FLDREFR/CURFLD)
+010700240111     A            CURPOS    R        H      REFFLD(FLDREFR/CURPOS)
+010800240111     A            CURREC    R        H      REFFLD(FLDREFR/CURREC)
+010900240111     A            CURROW    R        H      REFFLD(FLDREFR/CURROW)
+011000240111     A            CURRRN    R        H      REFFLD(FLDREFR/CURRRN)
+011100240111     A            SFMODE    R        H      REFFLD(FLDREFR/SFMODE)
+011200240111      *
+011300240111     A                                  1  2DATE(*YY)
+011400240111     A                                      EDTCDE(Y)
+011500240111     A            ACCTNAME  R        O  1 16REFFLD(FLDREFR/ACCTNAME)
+011600240111     A                                      COLOR(WHT)
+011700240111     A                                  1 70'MCM0102'
+011800240111      *
+011900240111     A                                  2  2TIME
+012000240111     A                                  2 23'Pay Code to Account Type Maintenan-
+012100240111     A                                      ce'
+012200240111     A                                      COLOR(WHT)
+012300240111     A                                  2 70USER
+012400240111      *
+012500240111     A N36 37                           3 27'Inactive Date:'
+012600240111     A N36 37                               COLOR(RED)
+012700240111     A N36 37     INACTDATE R        O    +1REFFLD(FLDREFR/INACTDATE)
+012800240111     A N36 37                               COLOR(RED)
+012900240111     A  36N37                               DSPATR(ND)
+013000240111      *
+013100240111     A                                  4 10'Type option, press Enter:'
+013200240111     A                                      COLOR(BLU)
+013300240111     A                                    +2'2=Change   4=Delete'
+013400240111     A                                      COLOR(BLU)
+013500240111      *
+013600240111     A                                  5 19'Account Type:'
+013700240111     A                                      COLOR(WHT)
+013800240111     A            SELACCTYCDR        O    +1REFFLD(FLDREFR/ACCTYPCDE)
+013900240111     A  40                                  COLOR(RED)
+014000240111     A  40                                  DSPATR(HI RI PC)
+014100240111
+014200240111     A            SELACCTYDSR        O    +2REFFLD(FLDREFR/ACCTYPDESC)
+014300240111      *
+014400240111     A                                  6 15'-------- Pay Code --------'
+014500240111     A                                      COLOR(WHT)
+014600240111     A                                  6 46'------ Account Type ------'
+014700240111     A                                      COLOR(WHT)
+014800240111      *
+014900240111     A                                  7 10'Opt'
+015000240111     A  28                                  DSPATR(ND)
+015100240111     A N28                                  DSPATR(UL)
+015200240111     A N28                                  COLOR(WHT)
+015300240111     A                                  7 14'Cde'
+015400240111     A                                      DSPATR(UL)
+015500240111     A                                      COLOR(WHT)
+015600240111     A                                    +1'       Description       '
+015700240111     A                                      DSPATR(UL)
+015800240111     A                                      COLOR(WHT)
+015900240111     A                                    +2'Ty'
+016000240111     A                                      DSPATR(UL)
+016100240111     A                                      COLOR(WHT)
+016200240111     A                                    +1'       Description       '
+016300240111     A                                      DSPATR(UL)
+016400240111     A                                      COLOR(WHT)
+016500240111      *
+016600240111      * Function keys...........................................................
+016700240111     A          R FKEYS                     TEXT('Function Keys for Main Screen-
+016800240111     A                                      ')
+016900240111     A                                      OVERLAY                             Do not erase the dsply
+017000240111      *
+017100240111     A                                 23  2'F1=Help'
+017200240111     A                                      COLOR(BLU)
+017300240111     A                                    +2'F3=Exit'
+017400240111     A                                      COLOR(BLU)
+017500240111     A                                    +2'F5=Refresh'
+017600240111     A                                      COLOR(BLU)
+017700240111     A N28                             23 32'F6=Add  F10=Addtl Info  F12=Cancel'
+017800240111     A                                      COLOR(BLU)
+017900240111     A  28                             23 32'F10=Addtl Info  F12=Cancel'
+018000240111     A                                      COLOR(BLU)
+018100240111      *
+018200240111      * Message subfile........................................................
+018300240111     A          R MSGSFL                    SFL
+018400240111     A                                      SFLMSGRCD(24)                       Msg SF text dsp on row
+018500240111     A            MSGKEY                    SFLMSGKEY                           ID msg frm pgm msg que
+018600240111     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+018700240111      *
+018800240111      * Message subfile control................................................
+018900240111     A          R MSGCTL                    SFLCTL(MSGSFL)
+019000240111     A*                                     OVERLAY                             Do not erase the dsply
+019100240111     A                                      SFLDSP                              Dsp SF rcds w/ctrl fmt
+019200240111     A                                      SFLDSPCTL                           Dsp flds in SF ctrl
+019300240111     A N99                                  SFLEND                              Enable SF dsply +
+019400240111     A                                      SFLINZ                              Initial fields to dfts
+019500240111     A                                      SFLPAG(0001)                        Nbr of SF rows to dsp
+019600240111     A                                      SFLSIZ(0002)                        Tot number of SF recs
+019700240111     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+019800240111      *
+019900240111      * Dummy record format so that main display can be viewed under window....
+020000240111     A          R DUMMYRCD                  ASSUME
+020100240111     A                                 24 79' '
+020200240111
