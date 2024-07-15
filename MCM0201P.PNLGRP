@@ -1,0 +1,228 @@
+000100240416.*******************************************************************************
+000200240416.*                         EMMI Physician Service, Inc.                        *
+000300240416.*                                    ©2024                                    *
+000400240416.*******************************************************************************
+000500240418.* HELP PANEL.: MCM0201P                                                       *
+000600240418.* DATE.......: 04/18/2024                                                     *
+000700240416.* PROGRAMMER.: Johnny Skaggs                                                  *
+000800240418.* SYNOPSIS...: Help For The Pay Code Description Data Maintenance Display     *
+000900240416.* DESCRIPTION: Based upon the location of the cursor, different help text     *
+001000240416.*              will be displayed in a pop-up window when the help function    *
+001100240416.*              key is pressed.                                                *
+001200240416.*                                                                             *
+001300240416.*+++++++++++++++++++++  P A N E L  M A I N T E N A N C E  ++++++++++++++++++++*
+001400240416.* MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                     *
+001500240416.* Description of modifications made........................................   *
+001600240416.*******************************************************************************
+001700240416.*
+001800240416:PNLGRP.
+001900240416.*
+002000240416.*******************************************************************************
+002100240418:help Name='DISPLAY'.Pay Code Desc Data Maintenace - Help
+002200240416:p.This screen allows for the maintanence of the pay code description data.
+002300240418Enter the information for the pay code you want to add, or change the
+002400240418information you want to modify. You must have authority to add, change or
+002500240418delete a pay code and its corresponding data; otherwise, you will only be able
+002600240418to view the data.
+002700240419:p.Pay codes are used to define all of the different message codes allowed in
+002800240419the system. These codes are used when posting payments, adjustments, write-offs,
+002900240419credits, denials, etc.
+003000240416:p.
+003100240416:p.The following function keys are available:
+003200240416:ul.
+003300240416:li.:hp2.F1:ehp2. - Help text for the various fields on the screen.
+003400240416:li.:hp2.F3:ehp2. - Exit out of the program.
+003500240418:li.:hp2.F4:ehp2. - Exit out of the program.
+003600240416:li.:hp2.F12:ehp2. - Cancel all processing and go back to previous screen.
+003700240416:eul.
+003800240416:ehelp.
+003900240416.*
+004000240416.*******************************************************************************
+004100240416:help Name='PAPAYCODE'.Pay Code - Help
+004200240416:p.Is the two character code associated with the Pay Code. For example,
+004300240419:hp2.INSURANCE BILLED:ehp2. is assigned the code value of :hp2.IB:ehp2.. These
+004400240419code are used to define a payment, adjustment, credit, write-off, denial, etc.
+004500240416:ehelp.
+004600240416.*
+004700240416.*******************************************************************************
+004800240416:help Name='PADESC'.Description of Pay Code - Help
+004900240416:p.The description of what the Pay Code is.  For example, the pay code
+005000240416:hp2.ST:ehp2. has the description of :hp2.PATIENT STATEMENT:ehp2..
+005100240416:ehelp.
+005200240416.*
+005300240416.*******************************************************************************
+005400240416:help Name='PAINACDT'.Inactive Date - Help
+005500240416:p.The inactive date is the date that the code was marked as no longer being
+005600240419used.
+005700240416:ehelp.
+005800240419.*
+005900240419.*******************************************************************************
+006000240419:help Name='PATYPE'.Pay Cope Type - Help
+006100240419:p.The effect of the pay code on accounts receivable.
+006200240419:ul.
+006300240419:li.:hp2.0:ehp2. = Debit accounts receivable
+006400240419:li.:hp2.1:ehp2. = Credit accounts receivable
+006500240419:eul.
+006600240419:ehelp.
+006700240419.*
+006800240419.*******************************************************************************
+006900240419:help Name='PACLASS'.Pay Code Class - Help
+007000240419:p.A code that is used to further classify the pay code. Any pay code with a
+007100240419class of 1, 2, 3, or 4 will appear on the Receipt and Deposit Bank Record
+007200240419report and the Receipt and Deposit Audit list. Any pay code that is blank, 7, 8,
+007300240419or 9 will only appear on the Receipt and Deposit Audit list.
+007400240419:ul.
+007500240419:li.:hp2.Blank:ehp2. = Informational (no classification)
+007600240419:li.:hp2.1:ehp2. = Cash
+007700240419:li.:hp2.2:ehp2. = Patient payment check
+007800240419:li.:hp2.3:ehp2. = Insurance payment check
+007900240419:li.:hp2.4:ehp2. = Credit Card
+008000240419:li.:hp2.7:ehp2. = Charge adjustment
+008100240419:li.:hp2.8:ehp2. = Receivable adjustment
+008200240419:li.:hp2.9:ehp2. = Insurance rebilling
+008300240419:eul.
+008400240419:ehelp.
+008500240419.*
+008600240419.*******************************************************************************
+008700240419:help Name='PAIGNORE'.Ignore On Statement - Help
+008800240419:p.Does the pay code appear on the patient statement?
+008900240419:ul.
+009000240419:li.:hp2.N:ehp2. = Pay code DOES NOT appear on the patient statement
+009100240419:li.:hp2.Y:ehp2. = Pay code will appear on the patient statement
+009200240419:eul.
+009300240419:ehelp.
+009400240419.*
+009500240419.*******************************************************************************
+009600240419:help Name='PAPOSTGL'.Post To General Ledger - Help
+009700240419:p.Does the pay code post to the general ledger?
+009800240419:ul.
+009900240419:li.:hp2.N:ehp2. = Pay code DOES NOT post to the general ledger
+010000240419:li.:hp2.Y:ehp2. = Pay code will post to the general ledger
+010100240419:eul.
+010200240419:ehelp.
+010300240419.*
+010400240419.*******************************************************************************
+010500240419:help Name='PASTOP'.Stop/Reinstate Statements - Help
+010600240419:p.Applying this pay code will cause a statement NOT to be produced, or will
+010700240419cause the statement to be reinstated.
+010800240419:ul.
+010900240419:li.:hp2.R:ehp2. = Reinstate the statements
+011000240419:li.:hp2.S:ehp2. = Do NOT produce any statements
+011100240419:eul.
+011200240419:ehelp.
+011300240419.*
+011400240419.*******************************************************************************
+011500240419:help Name='PAALTPAYCD'.Alternate Pay Code - Help
+011600240419:p.The pay code is used to track charges which appear on a Deliquent or Final
+011700240419Notice, even though some other charge actually caused the Deliquent or Final
+011800240419Notice to be generated.
+011900240419:ehelp.
+012000240419.*
+012100240419.*******************************************************************************
+012200240419:help Name='PARBLBYPAS'.Stop/Reinstate Rebill - Help
+012300240419:p.Stop the charge from being rebilled, or cause the charge to be reinstated
+012400240419because another pay code was added with this field having a value of R.
+012500240419:p.For example, if the denial pay code were to appear on a charge. Even though
+012600240419the charge is still outstanding, it has been processed by the insurance company
+012700240419and denied. This pay code should STOP the automatic rebilling process, because
+012800240419it has a value of S in this field.
+012900240419:p.Another example would be that the suspend pay code should STOP the automatic
+013000240419rebilling process. Later, another pay code could reinstate the automatic
+013100240419rebilling process when the necessary information to remove the suspend is
+013200240419supplied.
+013300240419:ul.
+013400240419:li.:hp2.R:ehp2. = Reinstate the billing of the charge
+013500240419:li.:hp2.S:ehp2. = Stop the charge from being rebilled
+013600240419:eul.
+013700240419:ehelp.
+013800240419.*
+013900240419.*******************************************************************************
+014000240419:help Name='PARBLDAYS'.Override Auto Rebill Days - Help
+014100240419:p.For a specific pay code, you can indicate here that the automatic rebill
+014200240419process should not consider the normal rebill days criteria for that charge.
+014300240419Instead, it should use the specified number of days for scheduling the next
+014400240419automatic rebill.
+014500240419:ehelp.
+014600240419.*
+014700240419.*******************************************************************************
+014800240419:help Name='PAINSTLMNT'.Allow Installment Payment - Help
+014900240419:p.Is this an installment pay code?
+015000240419:ul.
+015100240419:li.:hp2.Blank:ehp2. or :hp2.N:ehp2. = No
+015200240419:li.:hp2.Y:ehp2. = Yes
+015300240419:eul.
+015400240419:ehelp.
+015500240419.*
+015600240419.*******************************************************************************
+015700240419:help Name='PAPRT068'.Print On MBM068 - Help
+015800240419:p.Do you want this pay code to show on the Explanation of Message Codes Report
+015900240419(MBM068), which is produced with the Receipt and Deposit report?
+016000240419:ul.
+016100240419:li.:hp2.Blank:ehp2. or :hp2.N:ehp2. = No
+016200240419:li.:hp2.Y:ehp2. = Yes
+016300240419:eul.
+016400240419:ehelp.
+016500240419.*
+016600240419.*******************************************************************************
+016700240419:help Name='PAGENXREF'.Generic Pay Code - Help
+016800240419:p.This field is used to link an individual's information to the EMMI Generic
+016900240419Pay Code file. The EMMI Generic Pay Code file, in turn, is cross-referenced
+017000240419with the electronic Explanation of Benefits (EOB) files. This cross-referencing
+017100240419process allows for the integration and synchronization of individual data,
+017200240419payment codes, and EOB information across different systems or databases.
+017300240419:ehelp.
+017400240419.*
+017500240419.*******************************************************************************
+017600240419:help Name='PCDDESC'.Generic Pay Code Description - Help
+017700240419:p.The description of the generic pay code.
+017800240419:ehelp.
+017900240419.*
+018000240419.*******************************************************************************
+018100240419:help Name='PAFLWUP'.Follow Up Number of Days - Help
+018200240419:p.When this specific pay code is posted to an account, enter the number of days
+018300240419 after which a follow-up report should be generated. This setting allows you to
+018400240419 automatically trigger the generation of a follow-up report after a certain
+018500240419 number of days have passed since the pay code was applied to the account.
+018600240419:ehelp.
+018700240419.*
+018800240419.*******************************************************************************
+018900240419:help Name='PAMBM577'.Code in Column MBM577 - Help
+019000240419:p.Which Column on Report MBM577 should this pay code be included? Note: If
+019100240419MBM577 is activated in the Report Section, this is required.
+019200240419:ul.
+019300240419:li.:hp2.A:ehp2. = Contractual adjustments
+019400240419:li.:hp2.B:ehp2. = Bad debts/Write-offs
+019500240419:li.:hp2.C:ehp2. = Refunds/Recoups
+019600240419:li.:hp2.D:ehp2. = Collection Agency Write-offs
+019700240419:li.:hp2.E:ehp2. = Denials
+019800240419:li.:hp2.P:ehp2. = Payments
+019900240419:eul.
+020000240419:ehelp.
+020100240419.*
+020200240419.*******************************************************************************
+020300240419:help Name='PAMBM578'.Code in Column MBM578 - Help
+020400240419:p.Which Column on Report MBM578 should this pay code be included? Note: If
+020500240419MBM578 is activated in the Report Section, this is required.
+020600240419:ul.
+020700240419:li.:hp2.A:ehp2. = Contractual adjustments
+020800240419:li.:hp2.B:ehp2. = Practice mandated adjustments
+020900240419:li.:hp2.C:ehp2. = Collection Agency Write-offs
+021000240419:li.:hp2.P:ehp2. = Payments
+021100240419:eul.
+021200240419:ehelp.
+021300240419.*
+021400240419.*******************************************************************************
+021500240419:help Name='PAMBM579'.Code in Column MBM579 - Help
+021600240419:p.Which Column on Report MBM579 should this pay code be included? Note: If
+021700240419MBM579 is activated in the Report Section, this is required.
+021800240419:ul.
+021900240419:li.:hp2.A:ehp2. = Contractual adjustments
+022000240419:li.:hp2.B:ehp2. = Practice mandated adjustments
+022100240419:li.:hp2.C:ehp2. = Collection Agency Write-offs
+022200240419:li.:hp2.P:ehp2. = Payments
+022300240419:eul.
+022400240419:ehelp.
+022500240416.*
+022600240416.*******************************************************************************
+022700240416.*
+022800240416:EPNLGRP.

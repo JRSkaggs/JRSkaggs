@@ -1,0 +1,105 @@
+000100240416.*******************************************************************************
+000200240416.*                         EMMI Physician Service, Inc.                        *
+000300240416.*                                    ©2024                                    *
+000400240416.*******************************************************************************
+000500240416.* HELP PANEL.: MCM0200P                                                       *
+000600240416.* DATE.......: 04/16/2024                                                     *
+000700240416.* PROGRAMMER.: Johnny Skaggs                                                  *
+000800240416.* SYNOPSIS...: Help For The Pay Code Desc Maintenance Selection Display       *
+000900240416.* DESCRIPTION: Based upon the location of the cursor, different help text     *
+001000240416.*              will be displayed in a pop-up window when the help function    *
+001100240416.*              key is pressed.                                                *
+001200240416.*                                                                             *
+001300240416.*+++++++++++++++++++++  P A N E L  M A I N T E N A N C E  ++++++++++++++++++++*
+001400240416.* MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                     *
+001500240416.* Description of modifications made........................................   *
+001600240416.*******************************************************************************
+001700240416.*
+001800240416:PNLGRP.
+001900240416.*
+002000240416.*******************************************************************************
+002100240418:help Name='DISPLAY'.Pay Code Desc Selection - Help
+002200240416:p.This screen allows for the maintanence of the pay code description data.
+002300240416Enter a number in the option column in front of the pay code you want to
+002400240416perform maintenance on. You must have authority to add, change or delete a pay
+002500240416code and its corresponding data; otherwise, you will only be able to view the
+002600240416data. Place the cursor on the search line and press F1 (HELP) to learn how to
+002700240416search for the pay code you are after.
+002800240416:p.
+002900240416:p.The following function keys are available:
+003000240416:ul.
+003100240416:li.:hp2.F1:ehp2. - Help text for the various fields on the screen.
+003200240416:li.:hp2.F3:ehp2. - Exit out of the program.
+003300240416:li.:hp2.F5:ehp2. - Refresh the screen to the way it first appeared.
+003400240416:li.:hp2.F6:ehp2. - Add a pay code change to account type code entry.
+003500240416:li.:hp2.F11:ehp2. - Switch between searching by type and descritpion.
+003600240416:li.:hp2.F12:ehp2. - Cancel all processing and go back to previous screen.
+003700240416:li.:hp2.F14:ehp2. - Switch between showing all accounts and only active
+003800240416accounts.
+003900240416:li.:hp2.F24:ehp2. - Rotate through displaying the different function keys.
+004000240416:eul.
+004100240416:ehelp.
+004200240416.*
+004300240416.*******************************************************************************
+004400240416:help Name='SRCH4TEXT'.Search For - Help
+004500240416:p.Searching is done on the either the code or description column. The column
+004600240416header of the active search column will appear in a different color than the
+004700240416rest of the columns. Also, the search text description will have the name of the
+004800240416column being searched on. If the current search column is the pay code, then
+004900240416entering a value into the search field will cause the program to position to,
+005000240416or search on the pay code. If the current search column is the pay code
+005100240416description, then the program will postion to, or search on the pay code
+005200240416description.
+005300240416:p.
+005400240416:p.There are two types of searching you can do:
+005500240416:ul.
+005600240416:li.:hp2.Positon:ehp2. - You can enter just a portion of the value you want to
+005700240416position to. For Example, if you are searching for a pay code that starts with
+005800240416C, then you can enter an C in the search field and press ENTER.  The first row
+005900240416of the subfile data will be a pay code that starts with the letter C, or the
+006000240416next closest letter if there is no pay code that starts with the letter C.
+006100240416:li.:hp2.Search:ehp2. - By placing a question mark (?) at the beginning of the
+006200240416search text, you can search within the pay code or pay code description for
+006300240416matching values.  You can enter just a portion of the of the value you want to
+006400240416search for.  For Example, if you know what you want a pay code description that
+006500240416has ADJUSTMENT in it, you can enter ?ADJUST, and it will return all pay code
+006600240416descriptions that have ADJUSTMENT in them. If the pay code description does not
+006700240416have ADJUSTMENT in it, then it will not appear in the list.
+006800240416:eul.
+006900240416:ehelp.
+007000240416.*
+007100240416.*******************************************************************************
+007200240416:help Name='OPTION'.Option Number - Help
+007300240416:p.Enter one of the below numbers into into the option column before the pay
+007400240416code you would like to display, modify or delete.
+007500240416:ul.
+007600240416:li.:hp2.2:ehp2. = Change the data for the account type code. You must have
+007700240416authority to do this.
+007800240416:li.:hp2.4:ehp2. = Delete the account type code and any associated account type
+007900240416code data. You must have authority to do this.
+008000240416:li.:hp2.5:ehp2. = View the data for the account type code.
+008100240416:eul.
+008200240416:ehelp.
+008300240416.*
+008400240416.*******************************************************************************
+008500240416:help Name='PAPAYCODE'.Pay Code - Help
+008600240416:p.Is the two character code associated with the Pay Code. For example,
+008700240416:hp2.INSURANCE BILLED:ehp2. is assigned the code value of :hp2.IB:ehp2..
+008800240416:ehelp.
+008900240416.*
+009000240416.*******************************************************************************
+009100240416:help Name='PADESC'.Description of Pay Code - Help
+009200240416:p.The description of what the Pay Code is.  For example, the pay code
+009300240416:hp2.ST:ehp2. has the description of :hp2.PATIENT STATEMENT:ehp2..
+009400240416:ehelp.
+009500240416.*
+009600240416.*******************************************************************************
+009700240416:help Name='PAINACDT'.Inactive Date - Help
+009800240416:p.The inactive date is the date that the code was marked as no longer being
+009900240416used. By default these are hidden from the selection screen. Press F14 to show
+010000240416or hide the inactive account types.
+010100240416:ehelp.
+010200240416.*
+010300240416.*******************************************************************************
+010400240416.*
+010500240416:EPNLGRP.

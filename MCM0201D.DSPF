@@ -1,0 +1,299 @@
+000100240220      **************************************************************************
+000200240220      *                     EMMI Physician Service, Inc.                       *
+000300240220      *                                ©2024                                   *
+000400240220      **************************************************************************
+000500240220      * DISPLAY....: MCM0201D                                                  *
+000600240220      * DATE.......: 02/20/2024                                                *
+000700240220      * PROGRAMMER.: Johnny Skaggs                                             *
+000800240220      * FUNCTION...: Pay code maintanence screen. This is a rewrite of the     *
+000900240220      *              original screen, so that it uses a subfile and removes    *
+001000240220      *              any references to System/36 processing.                   *
+001100240220      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001200240220      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+001300240220      * Description of modifications made..................................... *
+001400240220      **************************************************************************
+001500240220      *
+001600240220     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+001700240220     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+001800240220     A                                      CF03(03 'Exit'                    ) Function key F3
+001900240416     A                                      CF04(04 'Prompt'                  ) Function key F4
+002000240220     A                                      CF12(12 'Cancel'                  ) Function key F12
+002100240220     A                                      ERRSFL                              Dsp err msgs in a SF
+002200240220     A                                      HELP                                Enable the help key
+002300240220     A                                      INDARA                              Inds moved to sep area
+002400240220     A                                      PRINT                               Allow print of dsply
+002500240220     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+002600240220      *
+002700240220      * Miscellaneous maintenance screen........................................
+002800240416     A          R MCM0201
+002900240220     A                                      BLINK                               Make cursor blink
+003000240220     A                                      CSRLOC(CURROW   CURCOL)             Cursor location
+003100240416     A                                      CHANGE(91 'Display Field Changed ' )
+003200240220     A                                      OVERLAY                             Do not erase the dsply
+003300240220     A  28                                  PROTECT                             Prohibit dsp data chgs
+003400240220     A                                      RTNCSRLOC(*RECNAME &CURREC -
+003500240220     A                                                &CURFLD &CURPOS)          Return cusror location
+003600240220      *
+003700240220     A                                      HLPCLR                              Clear active help spec
+003800240220     A                                      HLPTITLE('Pay Code Maintenance-
+003900240220     A                                       - Help')                           Dflt online help title
+004000240416     A          H                           HLPPNLGRP(DISPLAY    MCM0201P)
+004100240220     A                                      HLPARA(*NONE)
+004200240220     A                                      HLPBDY
+004300240416     A          H                           HLPPNLGRP(PAPAYCODE  MCM0201P)
+004400240220     A                                      HLPARA(5 2 5 13)
+004500240416     A          H                           HLPPNLGRP(PAINACDT   MCM0201P)
+004600240220     A                                      HLPARA(5 52 5 79)
+004700240416     A          H                           HLPPNLGRP(PADESC     MCM0201P)
+004800240220     A                                      HLPARA(6 2 6 53)
+004900240416     A          H                           HLPPNLGRP(PATYPE     MCM0201P)
+005000240422     A                                      HLPARA(7 2 7 51)
+005100240416     A          H                           HLPPNLGRP(PACLASS    MCM0201P)
+005200240422     A                                      HLPARA(8 2 10 78)
+005300240416     A          H                           HLPPNLGRP(PAIGNORE   MCM0201P)
+005400240422     A                                      HLPARA(11 2 11 63)
+005500240416     A          H                           HLPPNLGRP(PAPOSTGL   MCM0201P)
+005600240422     A                                      HLPARA(12 2 12 54)
+005700240416     A          H                           HLPPNLGRP(PASTOP     MCM0201P)
+005800240422     A                                      HLPARA(13 2 13 53)
+005900240416     A          H                           HLPPNLGRP(PAALTPAYCD MCM0201P)
+006000240422     A                                      HLPARA(14 2 14 67)
+006100240416     A          H                           HLPPNLGRP(PARBLBYPAS MCM0201P)
+006200240422     A                                      HLPARA(15 2 15 53)
+006300240416     A          H                           HLPPNLGRP(PARBLDAYS  MCM0201P)
+006400240220     A                                      HLPARA(16 2 16 31)
+006500240416     A          H                           HLPPNLGRP(PAINSTLMNT MCM0201P)
+006600240422     A                                      HLPARA(17 2 17 54)
+006700240416     A          H                           HLPPNLGRP(PAPRT068   MCM0201P)
+006800240422     A                                      HLPARA(18 2 18 54)
+006900240416     A          H                           HLPPNLGRP(PAGENXREF  MCM0201P)
+007000240220     A                                      HLPARA(19 2 19 32)
+007100240419     A          H                           HLPPNLGRP(PCDDESC    MCM0201P)
+007200240419     A                                      HLPARA(19 34 19 78)
+007300240416     A          H                           HLPPNLGRP(PAFLWUP    MCM0201P)
+007400240220     A                                      HLPARA(20 2 20 30)
+007500240416     A          H                           HLPPNLGRP(PAMBM577   MCM0201P)
+007600240220     A                                      HLPARA(21 2 21 37)
+007700240416     A          H                           HLPPNLGRP(PAMBM578   MCM0201P)
+007800240220     A                                      HLPARA(21 39 21 48)
+007900240416     A          H                           HLPPNLGRP(PAMBM579   MCM0201P)
+008000240220     A                                      HLPARA(21 50 21 59)
+008100240220     A                                      HLPBDY
+008200240220      *
+008300240220     A            CURCOL    R        H      REFFLD(FLDREFR/CURCOL              )
+008400240220     A            CURFLD    R        H      REFFLD(FLDREFR/CURFLD              )
+008500240220     A            CURPOS    R        H      REFFLD(FLDREFR/CURPOS              )
+008600240220     A            CURREC    R        H      REFFLD(FLDREFR/CURREC              )
+008700240220     A            CURROW    R        H      REFFLD(FLDREFR/CURROW              )
+008800240220     A            CURRRN    R        H      REFFLD(FLDREFR/CURRRN              )
+008900240220     A            MODE      R        H      REFFLD(FLDREFR/MODE                )
+009000240220      *
+009100240220     A                                  1  2DATE(*YY)
+009200240220     A                                      EDTCDE(Y)
+009300240220     A            COMPNAME  R        O  1 16REFFLD(FLDREFR/ACCTNAME            )
+009400240220     A                                      DSPATR(HI)
+009500240416     A                                  1 70'MCM0201'
+009600240220      *
+009700240220     A                                  2  2TIME
+009800240220     A                                  2 31'Pay Code Maintenance'
+009900240220     A                                      DSPATR(HI)
+010000240220     A                                  2 70USER
+010100240220      *
+010200240220     A N36                              3 21'Last changed on'
+010300240220     A N36                                  COLOR(WHT)
+010400240220     A N36        PACHGDAT  R        O  3 37REFFLD(FLDREFR/ACTDAT              )
+010500240220     A N36                                +1'by'
+010600240220     A N36                                  COLOR(WHT)
+010700240220     A N36        PACHGUSR  R        O    +1REFFLD(FLDREFR/CHGUSR              )
+010800240220      *
+010900240418     A            PADSCA    R        H      REFFLD(FLDREFR/PADSCA              )
+011000240220     A                                  5  2'Pay Code:'
+011100240220     A                                      COLOR(WHT)
+011200240220     A            PAPAYCODE R        B  5 12REFFLD(FLDREFR/PAYCODE             )
+011300240417     A  36                                  DSPATR(UL)
+011400240417     A N36                                  DSPATR(PR)
+011500240220     A  40                                  COLOR(RED)
+011600240220     A  40                                  DSPATR(HI RI PC)
+011700240220     A N36                              5 52'Inactive As Of..:'
+011800240220     A N36                                  COLOR(WHT)
+011900240220     A            PAINACDT  R        B  5 70REFFLD(FLDREFR/INACTDATE           )
+012000240418     A  36                                  DSPATR(ND PR)
+012100240220     A N28                                  DSPATR(UL)
+012200240419     A                                      COLOR(RED)
+012300240220     A  41                                  DSPATR(HI RI PC)
+012400240220      *
+012500240220     A                                  6  2'Pay Code Description.....:'
+012600240220     A                                      COLOR(WHT)
+012700240220     A            PADESC    R        B  6 29REFFLD(FLDREFR/PAYCDEDESC          )
+012800240220     A N28                                  DSPATR(UL)
+012900240220     A  42                                  COLOR(RED)
+013000240220     A  42                                  DSPATR(HI RI PC)
+013100240220      *
+013200240220     A                                  7  2'Pay Code Type............:'
+013300240220     A                                      COLOR(WHT)
+013400240220     A            PATYPE    R        B  7 29REFFLD(FLDREFR/PAYCDETYP           )
+013500240419     A                                      DFTVAL('0')
+013600240220     A N28                                  DSPATR(UL)
+013700240220     A  43                                  COLOR(RED)
+013800240220     A  43                                  DSPATR(HI RI PC)
+013900240422     A                                  7 34'(0=Debit,1=Credit)'
+014000240220     A                                      COLOR(TRQ)
+014100240220      *
+014200240220     A                                  8  2'Pay Code Class...........:'
+014300240220     A                                      COLOR(WHT)
+014400240220     A            PACLASS   R        B  8 29REFFLD(FLDREFR/PAYCLASS            )
+014500240220     A N28                                  DSPATR(UL)
+014600240220     A  44                                  COLOR(RED)
+014700240220     A  44                                  DSPATR(HI RI PC)
+014800240422     A                                  8 34'(BLANK=Informational,1=Patient Cas-
+014900240220     A                                      h,2=Patient'
+015000240220     A                                      COLOR(TRQ)
+015100240220      *
+015200240422     A                                  9 35'Check,3=Insurance,Payment,4=Patien-
+015300240220     A                                      t CC,'
+015400240220     A                                      COLOR(TRQ)
+015500240220      *
+015600240422     A                                 10 35'7=Charge Adj,8=Rec Adj,9=Insurance-
+015700240220     A                                       Billing)'
+015800240220     A                                      COLOR(TRQ)
+015900240220      *
+016000240220     A                                 11  2'Ignore On Statement......:'
+016100240220     A                                      COLOR(WHT)
+016200240220     A            PAIGNORE  R        B 11 29REFFLD(FLDREFR/IGNRSTMT            )
+016300240220     A N28                                  DSPATR(UL)
+016400240220     A  45                                  COLOR(RED)
+016500240220     A  45                                  DSPATR(HI RI PC)
+016600240422     A                                 11 34'(R=Ignore if revenue received)'
+016700240220     A                                      COLOR(TRQ)
+016800240220      *
+016900240220     A                                 12  2'Post To General Ledger...:'
+017000240220     A                                      COLOR(WHT)
+017100240220     A            PAPOSTGL  R        B 12 29REFFLD(FLDREFR/POSTTOGL            )
+017200240220     A N28                                  DSPATR(UL)
+017300240220     A  46                                  COLOR(RED)
+017400240220     A  46                                  DSPATR(HI RI PC)
+017500240422     A                                 12 34'(Blank or N=No,Y=Yes)'
+017600240220     A                                      COLOR(TRQ)
+017700240220      *
+017800240220     A                                 13  2'Stop/Reinstate Statements:'
+017900240220     A                                      COLOR(WHT)
+018000240220     A            PASTOP    R        B 13 29REFFLD(FLDREFR/STOPREIN            )
+018100240220     A N28                                  DSPATR(UL)
+018200240220     A  47                                  COLOR(RED)
+018300240220     A  47                                  DSPATR(HI RI PC)
+018400240422     A                                 13 34'(S=Stop,R=Reinstate)'
+018500240220     A                                      COLOR(TRQ)
+018600240220      *
+018700240220      * Used when comparing screen to file for data changes(field not used).....
+018800240220     A            PAACTPAYCDR        H      REFFLD(FLDREFR/ACTPAYCD            )
+018900240220      *
+019000240220     A                                 14  2'Alternate Pay Code.......:'
+019100240220     A                                      COLOR(WHT)
+019200240220     A            PAALTPAYCDR        B 14 29REFFLD(FLDREFR/ALTPAYCD            )
+019300240220     A N28                                  DSPATR(UL)
+019400240220     A  48                                  COLOR(RED)
+019500240418     A  48
+019600240418     AO 92                                  DSPATR(PC)
+019700240418     A  48                                  DSPATR(HI RI)
+019800240422     A                                 14 34'(For Delinquent and Final Notices)'
+019900240220     A                                      COLOR(TRQ)
+020000240220      *
+020100240220     A                                 15  2'Stop/Reinstate Rebill....:'
+020200240220     A                                      COLOR(WHT)
+020300240220     A            PARBLBYPASR        B 15 29REFFLD(FLDREFR/RBLBYPAS            )
+020400240220     A N28                                  DSPATR(UL)
+020500240220     A  49                                  COLOR(RED)
+020600240220     A  49                                  DSPATR(HI RI PC)
+020700240422     A                                 15 34'(S=Stop,R=Reinstate)'
+020800240220     A                                      COLOR(TRQ)
+020900240220      *
+021000240220     A                                 16  2'Override Auto Rebill Days:'
+021100240220     A                                      COLOR(WHT)
+021200240220     A            PARBLDAYS R        B 16 29REFFLD(FLDREFR/RBLDAYS             )
+021300240220     A N28                                  DSPATR(UL)
+021400240220     A  50                                  COLOR(RED)
+021500240220     A  50                                  DSPATR(HI RI PC)
+021600240220      *
+021700240220     A                                 17  2'Allow Installment Payment:'
+021800240220     A                                      COLOR(WHT)
+021900240220     A            PAINSTLMNTR        B 17 29REFFLD(FLDREFR/INSTLMNT            )
+022000240220     A N28                                  DSPATR(UL)
+022100240220     A  51                                  COLOR(RED)
+022200240220     A  51                                  DSPATR(HI RI PC)
+022300240422     A                                 17 34'(Blank or N=No,Y=Yes)'
+022400240220     A                                      COLOR(TRQ)
+022500240220      *
+022600240220     A                                 18  2'Print On MBM068..........:'
+022700240220     A                                      COLOR(WHT)
+022800240220     A            PAPRT068  R        B 18 29REFFLD(FLDREFR/PRTMB068            )
+022900240220     A N28                                  DSPATR(UL)
+023000240220     A  52                                  COLOR(RED)
+023100240220     A  52                                  DSPATR(HI RI PC)
+023200240422     A                                 18 34'(Blank or N=No,Y=Yes)'
+023300240220     A                                      COLOR(TRQ)
+023400240220      *
+023500240220     A                                 19  2'Generic Pay Code.........:'
+023600240220     A                                      COLOR(WHT)
+023700240220     A            PAGENXREF R        B 19 29REFFLD(FLDREFR/GENXREF             )
+023800240220     A N28                                  DSPATR(UL)
+023900240220     A  53                                  COLOR(RED)
+024000240418     A  53
+024100240418     AO 93                                  DSPATR(PC)
+024200240418     A  53                                  DSPATR(HI RI)
+024300240419     A            PCDDESC   R   45   O 19 34
+024400240419     A                                      COLOR(YLW)
+024500240220      *
+024600240220     A                                 20  2'Follow Up Number of Days.:'
+024700240220     A                                      COLOR(WHT)
+024800240220     A            PAFLWUP   R        B 20 29REFFLD(FLDREFR/FLWUPDYS            )
+024900240220     A N28                                  DSPATR(UL)
+025000240220     A  54                                  COLOR(RED)
+025100240220     A  54                                  DSPATR(HI RI PC)
+025200240220      *
+025300240220     A                                 21  2'Code in Column...........:'
+025400240220     A                                      COLOR(WHT)
+025500240220     A                                 21 29'MBM577'
+025600240220     A                                      COLOR(TRQ)
+025700240220     A            PAMBM577  R        B 21 36REFFLD(FLDREFR/MBM577              )
+025800240220     A N28                                  DSPATR(UL)
+025900240220     A  55                                  COLOR(RED)
+026000240220     A  55                                  DSPATR(HI RI PC)
+026100240220     A                                 21 40'MBM578'
+026200240220     A                                      COLOR(TRQ)
+026300240220     A            PAMBM578  R        B 21 47REFFLD(FLDREFR/MBM578              )
+026400240220     A N28                                  DSPATR(UL)
+026500240220     A  56                                  COLOR(RED)
+026600240220     A  56                                  DSPATR(HI RI PC)
+026700240220     A                                 21 51'MBM579'
+026800240220     A                                      COLOR(TRQ)
+026900240220     A            PAMBM579  R        B 21 58REFFLD(FLDREFR/MBM579              )
+027000240220     A N28                                  DSPATR(UL)
+027100240220     A  57                                  COLOR(RED)
+027200240220     A  57                                  DSPATR(HI RI PC)
+027300240220      *
+027400240220     A                                 23  2'F1=Help'
+027500240220     A                                      COLOR(BLU)
+027600240220     A                                    +3'F3=Exit'
+027700240220     A                                      COLOR(BLU)
+027800240220     A                                    +3'F4=Prompt'
+027900240220     A                                      COLOR(BLU)
+028000240220     A                                    +3'F12=Cancel'
+028100240220     A                                      COLOR(BLU)
+028200240220      *
+028300240220      * Message subfile........................................................
+028400240220     A          R MSGSFL                    SFL
+028500240220     A                                      SFLMSGRCD(24)
+028600240220     A            MSGKEY                    SFLMSGKEY
+028700240220     A            PGMNAME                   SFLPGMQ
+028800240220      *
+028900240220      * Message subfile control................................................
+029000240220     A          R MSGCTL                    SFLCTL(MSGSFL)
+029100240220     A                                      OVERLAY
+029200240220     A                                      SFLDSP
+029300240220     A                                      SFLDSPCTL
+029400240220     A N99                                  SFLEND
+029500240220     A                                      SFLINZ
+029600240220     A                                      SFLSIZ(0002)
+029700240220     A                                      SFLPAG(0001)
+029800240220     A            PGMNAME                   SFLPGMQ
+029900240220      *

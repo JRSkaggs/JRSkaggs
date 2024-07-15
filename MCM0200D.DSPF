@@ -1,0 +1,158 @@
+000100240415      **************************************************************************
+000200240415      *                     EMMI Physician Service, Inc.                       *
+000300240415      *                                ©2024                                   *
+000400240415      **************************************************************************
+000500240415      * DISPLAY....: MCM0200D                                                  *
+000600240415      * DATE.......: 04/15/2024                                                *
+000700240415      * PROGRAMMER.: Johnny Skaggs                                             *
+000800240415      * FUNCTION...: Pay code description maintenance screen. This screen      *
+000900240415      *              allows the user to add, change, or delete pay codes.      *
+001000240415      *                                                                        *
+001100240415      *++++++++++++++++  P R O G R A M   M A I N T E N A N C E  +++++++++++++++*
+001200240415      * MM/DD/CCYY   SAR#XXXX   PROGRAMMER NAME                                *
+001300240415      * Description of modifications made..................................... *
+001400240415      **************************************************************************
+001500240415      *
+001600240415     A                                      DSPSIZ(*DS3 *DS4)                   Dsp siz 24x80 & 27x132
+001700240415     A                                      ALTHELP(CA01)                       Alternate help Fnc key
+001800240415     A                                      CF03(03 'Exit'                     )Function key F3
+001900240415     A                                      CF05(05 'Refresh'                  )Function key F5
+002000240415     A                                      CF06(06 'Add Code'                 )Function key F6
+002100240415     A                                      CF11(11 'Sort on Code/Code Desc'   )Function key F11
+002200240415     A                                      CF12(12 'Cancel'                   )Function key F12
+002300240415     A                                      CF14(14 'Show Accts All/Active'    )Function key F14
+002400240415     A                                      CF24(24 'More Function Keys'       )Function key F24
+002500240415     A                                      ERRSFL                              Dsp err msgs in a SF
+002600240415     A                                      HELP                                Enable the help key
+002700240415     A                                      HLPTITLE('Account Type Lookup Help')
+002800240415     A                                      INDARA                              Inds moved to sep area
+002900240415     A                                      PRINT                               Allow print of dsply
+003000240415     A                                      REF(*LIBL/EMMIFLDREF)               Field reference file
+003100240415      *
+003200240415      * Enter option for code to process........................................
+003300240415     A          R MCM0200SFL                SFL
+003400240415     A  25                                  SFLNXTCHG
+003500240415      *
+003600240415     A            OPTION         1A  B 10 18TEXT('Selection Number'            )
+003700240415     A                                      VALUES(' ' '2' '4' '5')
+003800240415     A  40                                  COLOR(RED)
+003900240415     A  40                                  DSPATR(HI RI PC)
+004000240415     A            PAPAYCODE R        O 10 22REFFLD(FLDREFR/ACCTYPCDE           )
+004100240415     A  37                                  COLOR(RED)
+004200240415     A            PADESC    R        O 10 26REFFLD(FLDREFR/ACCTYPDESC          )
+004300240415     A  37                                  COLOR(RED)
+004400240415     A            PAINACDT  R        O 10 53REFFLD(FLDREFR/INACTDATE           )
+004500240415     A  37                                  COLOR(RED)
+004600240415      *
+004700240415      * Select which code to edit or delete.....................................
+004800240415     A          R MCM0200CTL                SFLCTL(MCM0200SFL)                  SF-control record fmt
+004900240415     A                                      SFLPAG(12)                          Nbr of SF rows to dsp
+005000240415     A                                      SFLSIZ(1200)                        Tot number of SF recs
+005100240415     A                                      BLINK                               Make cursor blink
+005200240415     A                                      CSRLOC(CURROW   CURCOL)             Cursor location
+005300240415     A                                      OVERLAY                             Do not erase the dsply
+005400240415     A                                      RTNCSRLOC(&CURREC &CURFLD &CURPOS)  Return cusror location
+005500240415     A                                      SFLCSRRRN(&CURRRN)                  Return relative rec no
+005600240415     A  29                                  SFLINZ                              Initial fields to dfts
+005700240415     A  30                                  SFLCLR                              Clr SF of all rcds
+005800240415     A  31                                  SFLDSPCTL                           Dsp flds in SF ctrl
+005900240415     A  32                                  SFLDSP                              Dsp SF rcds w/ctrl fmt
+006000240415     A  39                                  SFLEND(*MORE)                       Enable SF more/bottom
+006100240415     A                                      SFLRNA                              Inz SF w/no act rcds
+006200240415      *
+006300240415     A                                      HLPCLR
+006400240415     A          H                           HLPPNLGRP(DISPLAY   MCM0200P)
+006500240415     A                                      HLPARA(*NONE)
+006600240415     A                                      HLPBDY
+006700240415     A          H                           HLPPNLGRP(SRCH4TEXT MCM0200P)
+006800240415     A                                      HLPARA(4 16 4 65)
+006900240415     A          H                           HLPPNLGRP(OPTION    MCM0200P)
+007000240415     A                                      HLPARA(9 17 21 19)
+007100240415     A          H                           HLPPNLGRP(PAPAYCODE MCM0200P)
+007200240415     A                                      HLPARA(9 21 21 24)
+007300240415     A          H                           HLPPNLGRP(PADESC    MCM0200P)
+007400240415     A                                      HLPARA(9 26 21 50)
+007500240415     A          H                           HLPPNLGRP(PAINACDT  MCM0200P)
+007600240415     A                                      HLPARA(9 52 21 64)
+007700240415     A                                      HLPBDY
+007800240415      *
+007900240415     A            SFREC#    R        H      REFFLD(FLDREFR/SFREC#              )
+008000240415     A                                      SFLRCDNBR(CURSOR *TOP)              Pos to SF page of RRN
+008100240415     A            CURCOL    R        H      REFFLD(FLDREFR/CURCOL              )Cursor column position
+008200240415     A            CURFLD    R        H      REFFLD(FLDREFR/CURFLD              )Current field name
+008300240415     A            CURPOS    R        H      REFFLD(FLDREFR/CURPOS              )Cursor pos within fld
+008400240415     A            CURREC    R        H      REFFLD(FLDREFR/CURREC              )Current record name
+008500240415     A            CURROW    R        H      REFFLD(FLDREFR/CURROW              )Cursor row positon
+008600240415     A            CURRRN    R        H      REFFLD(FLDREFR/CURRRN              )Curr relative rec nbr
+008700240415     A            MODE      R        H      REFFLD(FLDREFR/MODE                )Subfle drop/fold mode
+008800240415      *
+008900240415     A                                  1  2DATE(*YY)
+009000240415     A                                      EDTCDE(Y)
+009100240415     A            COMPNAME      50A  O  1 16DSPATR(HI)
+009200240415     A                                  1 70'MCM0200'
+009300240415     A                                  2  2TIME
+009400240415     A                                  2 30'Pay Code Maintenance'
+009500240415     A                                      DSPATR(HI)
+009600240415     A                                  2 70USER
+009700240415     A  35                              3 32'--- Scan Mode ---'
+009800240415     A                                      TEXT('Indicates Scan Mode Active'  )
+009900240415     A                                      COLOR(YLW)
+010000240415     A  34                              4 16'       Code Search:'
+010100240415     A  34                                  COLOR(WHT)
+010200240415     A N34                              4 16'Description Search:'
+010300240415     A N34                                  COLOR(WHT)
+010400240415     A            SRCH4TEXT     30A  B  4 36TEXT('What Text To Search For'     )
+010500240415     A                                      DSPATR(UL PC)
+010600240415     A                                  6  2'Type options, press Enter.'
+010700240415     A                                      COLOR(BLU)
+010800240415     A                                  7  3'2=Change   4=Delete   5=Display'
+010900240415     A                                      COLOR(BLU)
+011000240415     A  38                              8 26'-- Only Active Showing --'
+011100240415     A                                      COLOR(YLW)
+011200240415     A                                  9 17'Opt'
+011300240415     A                                      DSPATR(UL)
+011400240415     A                                      COLOR(WHT)
+011500240415     A                                  9 21'Code'
+011600240415     A                                      DSPATR(UL)
+011700240415     A  34                                  COLOR(PNK)
+011800240415     A N34                                  COLOR(WHT)
+011900240415     A                                  9 26'       Description       '
+012000240415     A                                      DSPATR(UL)
+012100240415     A N34                                  COLOR(PNK)
+012200240415     A  34                                  COLOR(WHT)
+012300240415     A N38                              9 52'Inactive Date'
+012400240415     A N38                                  DSPATR(UL)
+012500240415     A N38                                  COLOR(WHT)
+012600240415      *
+012700240415      * Function keys...........................................................
+012800240415     A          R MCM0200FKY                TEXT('Function Keys for Main Screen-
+012900240415     A                                      ')
+013000240415      *
+013100240415     A N91                             23  2'F1=Help  F3=Exit  F5=Refresh  -
+013200240415     A                                      F6=Add  F11=Code/Desc  F12=Cancel  -
+013300240415     A                                      F24=More Keys'
+013400240415     A                                      COLOR(BLU)
+013500240415     A  91                             23  2'F14=All Codes/Active Codes  -
+013600240415     A                                      F24=More Keys'
+013700240415     A                                      COLOR(BLU)
+013800240415      *
+013900240415      * Message subfile........................................................
+014000240415     A          R MSGSFL                    SFL                                 Subfile record format
+014100240415     A                                      SFLMSGRCD(24)                       Msg SF text dsp on row
+014200240415     A            MSGKEY                    SFLMSGKEY                           ID msg frm pgm msg que
+014300240415     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+014400240415      *
+014500240415      * Message subfile control................................................
+014600240415     A          R MSGCTL                    SFLCTL(MSGSFL)                      SF-control record fmt
+014700240415     A                                      OVERLAY                             Do not erase the dsply
+014800240415     A                                      SFLDSP                              Dsp SF rcds w/ctrl fmt
+014900240415     A                                      SFLDSPCTL                           Dsp flds in SF ctrl
+015000240415     A N99                                  SFLEND                              Enable SF dsply +
+015100240415     A                                      SFLINZ                              Initial fields to dfts
+015200240415     A                                      SFLSIZ(0002)                        Nbr of SF rows to dsp
+015300240415     A                                      SFLPAG(1)                           Tot number of SF recs
+015400240415     A            PGMNAME                   SFLPGMQ                             SF msg queue name
+015500240415      *
+015600240415      *--------------------------------------------------------------------
+015700240415     A          R DUMMY                     ASSUME
+015800240415     A                                  1  2' '
