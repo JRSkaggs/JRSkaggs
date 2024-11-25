@@ -2,7 +2,7 @@ Hi, I am Johnny Skaggs
 👀 I’m interested in SQLRPGLE, RPGILE Free, DDS, IBM i API's, SQL, PowerBI, PowerQuery, Power Automate
 🌱 I’m currently learning how to integrate the Microsoft Power tools with the IBM i
 💞️ I’m looking to collaborate on anything related to the IBM i
-📫 How to reach me email at johnny.skaggs@emmicorp.com - work, or jrskaggs@sbcglobal.net - personal
+📫 How to reach me email at jrskaggs@sbcglobal.net
 😄 Pronouns: He, him
 ⚡ Fun fact: I am into SciFi and fantasy movies
 
